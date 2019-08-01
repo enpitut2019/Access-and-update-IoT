@@ -4,7 +4,7 @@ pragma solidity ^0.5.1;
 contract Group{
     address[] admins;
     uint256 groupId=0;
-    mapping(address => uint256) ownerToGid;//ownerの属するグループ
+    mapping(address => uint256) adminToGid;//adminの属するグループ
     
     mapping(address=>address[]) allowedMembers;//adminが許可した機器アドレス(まだ認証されてない)
     
@@ -13,6 +13,7 @@ contract Group{
     mapping(address=>bool) isAdmin;
     mapping(address=>bool) isFollower;
     uint8 i;
+    uint8 j;
  
       modifier onlyOwner(){
           //ifとかforで回す→×
@@ -21,38 +22,62 @@ contract Group{
               _;
           }
       
-      modifier onlyIndependent(){//無所属の機器のみ
+      modifier onlyIndependent(){
           require(isAdmin[msg.sender] ==false);
           require(isFollower[msg.sender] ==false);
           _;
       }
 
-    function createGroup() public{//グループを作る
+    function createGroup() public onlyIndependent(){
         groupId++;
         admins.push(msg.sender);
-        ownerToGid[msg.sender] = groupId;
+        adminToGid[msg.sender] = groupId;
         isAdmin[msg.sender]=true;
     }
     
-    function addMember(address someone) public {//onlyOwnerにしたい
-        allowedMembers[msg.sender].push(someone);
+    function addMember(address follower) public onlyOwner() {//onlyOwnerにしたい
+          for(j=0;j<allowedMembers[msg.sender].length;j++){//既に認証されていないか
+                     if(follower == allowedMembers[msg.sender][j]){
+                         revert();
+                     }
+                 }
+        allowedMembers[msg.sender].push(follower);
     }
     
-    function requestJoin(address admin)public onlyIndependent{//グループに参加する
+    function requestJoin(address admin)public onlyIndependent(){
         for(i = 0; i<allowedMembers[admin].length; i++){
             if(msg.sender == allowedMembers[admin][i]){
                 authenticatedMembers[admin].push(msg.sender);
-                belongTo[msg.sender] = ownerToGid[admin];
+                belongTo[msg.sender] = adminToGid[admin];
                 isFollower[msg.sender]=true;
             }
         }
     }
+    
+    function removeMember(address follower) public onlyOwner(){
+         for(i = 0; i<authenticatedMembers[msg.sender].length; i++){
+             if(authenticatedMembers[msg.sender][i] == follower){
+                 authenticatedMembers[msg.sender][i]=address(0x00);
+                 allowedMembers[msg.sender][i]=address(0x00);
+             }
+         }
+    }
 
-    function getAuthenticatedMembers()public view returns(address[] memory){//onlyOwnerにしたい
+    function getAuthenticatedMembers()public view onlyOwner() returns(address[] memory){
         return authenticatedMembers[msg.sender];
     }
-    function getGid() public view returns(uint256){//機器のグループ情報取得
-        return belongTo[msg.sender];
+    
+    function getGid() public view returns(uint256){
+        if(isAdmin[msg.sender]){
+            return adminToGid[msg.sender];
+        }else{
+            return belongTo[msg.sender];
+        }
+        
+    }
+    
+    function getAllowedMembers() public view returns(address[] memory){
+        return allowedMembers[msg.sender];
     }
     
 }
