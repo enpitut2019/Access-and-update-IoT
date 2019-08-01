@@ -26,9 +26,9 @@ contract Group{
             }
 
     function createGroup() public{
+          groupId++;
         admins.push(msg.sender);
         ownerToGid[msg.sender] = groupId;
-        groupId++;
     }
 
     function addMember(address someone) public onlyOwner(){
