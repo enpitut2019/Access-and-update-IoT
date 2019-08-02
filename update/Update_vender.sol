@@ -4,7 +4,7 @@ pragma solidity ^0.5.8;
 contract Vender {
     mapping(bytes32=>uint256) public ver; // モデルに対応したバージョン番号
     mapping(bytes32=>mapping(uint256=>string)) verfier; // モデルのバージョンに対応したファームウェアのハッシュ値(検証用)
-    mapping(bytes32=>uint256) public model_state; // 0 safe, 1 脆弱性含む
+    mapping(bytes32=>uint8) public model_state; // 0 safe, 1 脆弱性含む
     
     constructor() public{
     }
@@ -55,7 +55,7 @@ contract Vender {
     }
     
     // モデルの状態を入手(リストから)
-    function getModelState(bytes32[] memory _models, uint256[] memory _states) view public returns(uint256[] memory){
+    function getModelState(bytes32[] memory _models, uint8[] memory _states) view public returns(uint8[] memory){
         for(uint256 i = 0; i < _models.length; i++){
             _states[i] = model_state[_models[i]];
         }
