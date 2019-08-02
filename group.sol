@@ -13,10 +13,10 @@ contract Group{
     mapping(address=>bool) isAdmin;
     mapping(address=>bool) isFollower;
 
-    mapping(address => string) model;
     mapping(string => address[])modelToFollowers;
-    mapping(bytes32 => uint8[]) isSecure;//初期値0,モデルのハッシュ値で,そのモデル化が安全かチェック
-    mapping(address => bytes32[] ) hasModels;
+    mapping(bytes32 => uint8) isSecure;//初期値0,モデルのハッシュ値で,そのモデル化が安全かチェック
+    mapping(address => bytes32[]) hasModels;
+    
     
     bytes32 hashedModel;
 
@@ -62,9 +62,9 @@ contract Group{
                 hashedModel=getHash(ownmodel);
  
                 modelToFollowers[ownmodel].push(msg.sender); //model名とデバイスのマッピング//無くてもいい?
-                
+                hasModels[admin].push(hashedModel);//adminの担当カ所のfollowerのモデル
                 isSecure[hashedModel]=0;
-                hasModels[admin]=hashedModel;//adminの担当カ所のfollowerのモデル
+               
                 //既に所有していたら追加しない操作も後で
             }
         }
@@ -87,16 +87,8 @@ contract Group{
          }
     }
 
-    // function Warmed(string model) public onlyOwner(){
-    //     for(i=0;i<admins.length;i++){
-    //         if(model[admins[msg.sender][i]]==model){
-    //             for(j=0;j<modelToAddress.length;j++){
-    //             removeMember(modelToAddress[model])
-    //             }
-    //         }
-    //     }
-    // }
-
+ 
+     
 
 
     function getAuthenticatedMembers()public view onlyOwner() returns(address[] memory){
@@ -111,15 +103,26 @@ contract Group{
         }
     }
     
+     function getModels() public view returns( bytes32[] memory ){//jsからinform通知が来たらmodel情報を返す
+        return hasModels[msg.sender];
+    }
+    
+    
     function getAllowedMembers() public view returns(address[] memory){
         return allowedMembers[msg.sender];
     }
 
-    function getModels() public view returns(bytes32){//jsからinform通知が来たらmodel情報を返す
-        return hasModels[msg.sender];
+
+      function getIsSecure(bytes32 hashedMdl)public view returns(uint8){
+          //adminのpushしていく
+        return isSecure[hashedMdl];//adminがfollowerのmodelがセーフかどうか返す
     }
     
-      function getIsSecure()public view returns(bytes32){
-        return isSecure[hasModels[msg.sender]];//adminがfollowerのmodelがセーフかどうか返す
+    
+    function updateinfo(bytes32[] memory hashed, uint8[] memory goodbad)public {
+        for(i=0;i<hashed.length;i++){
+         isSecure[hashed[i]]=goodbad[i];
+        }
     }
+    
 }    
