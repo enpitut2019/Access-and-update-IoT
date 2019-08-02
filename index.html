@@ -29,6 +29,30 @@
     <input type="button" value="get" onclick="getAuthenticatedMembers();" />
     <div id="authenticated"></div>
 
+    <input type="button" value="Model" onclick="getModels();" />
+    <div id="hashedmodels"></div>
+
+    <script>
+    prever=0
+    while(1){
+     version=vnd_contract
+    .getVer.call(
+    (error,res)=>{
+    if(!error){
+		console.log("wawa")
+        $('#hashedmodels').text(res)
+    }
+})
+    if(version!=prever){
+        informgrp();
+    }
+    prever=version
+}
+    </script>
+
+
+
+
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

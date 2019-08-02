@@ -122,7 +122,22 @@ function getAuthenticatedMembers(){
 		console.log("wawa")
         $('#authenticated').text(res)
     }
-    })
+	}
+	)
+
+}
+
+function informgrp(){
+
+    group_cnt
+    .getModels.call(
+    (error,res)=>{
+    if(!error){
+		console.log("wawa")
+        $('#hashedmodels').text(res)
+    }
+	}
+	)
 
 }
 
