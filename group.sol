@@ -15,8 +15,8 @@ contract Group{
 
     mapping(address => string) model;
     mapping(string => address[])modelToFollowers;
-    mapping(bytes32 => uint8) isSecure;//初期値0,モデルのハッシュ値で,そのモデル化が安全かチェック
-    mapping(address => bytes32 ) hasModels;
+    mapping(bytes32 => uint8[]) isSecure;//初期値0,モデルのハッシュ値で,そのモデル化が安全かチェック
+    mapping(address => bytes32[] ) hasModels;
     
     bytes32 hashedModel;
 
@@ -75,6 +75,8 @@ contract Group{
         uint8 a = 0;
         return keccak256(abi.encodePacked(b, a, _var));
     }
+
+  
     
     function removeMember(address follower) public onlyOwner(){
          for(i = 0; i<authenticatedMembers[msg.sender].length; i++){
@@ -117,4 +119,7 @@ contract Group{
         return hasModels[msg.sender];
     }
     
+      function getIsSecure()public view returns(bytes32){
+        return isSecure[hasModels[msg.sender]];//adminがfollowerのmodelがセーフかどうか返す
+    }
 }    
