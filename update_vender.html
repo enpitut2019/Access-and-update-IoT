@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+    <head><meta http-equiv="content-type" charset="utf-8"></head>
+    <body>
+		<form name="Test_form" action="test.html">
+        <div id="networkid"></div>
+        <div id="accounts"></div>
+        <div>
+            <input type="text" placeholder="string_model, string_file" name="up_input"> &nbsp;&nbsp;  <input type="button" value="アップロード" onclick="upContent()"><br>
+            保存したファイル: &nbsp; <div id="file"></div>
+            保存したハッシュ値: &nbsp; <div id="fhash"></div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+        <script type="text/javascript" src="./src/sha256.js"></script>
+        <script>
+            if (typeof web3 !== 'undefined') {
+                web3 = new Web3(web3.currentProvider);
+                ethereum.enable();
+                
+                const address = '0x8a3ef0cd8ca26f048fdb36ccdc156bcdd7b1db87';
+
+                const abi =[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "phash",
+				"type": "string"
+			},
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "upNewProgram",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_var",
+				"type": "string"
+			}
+		],
+		"name": "getHash",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getVer",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			},
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getVerifier",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "ver",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_hash",
+				"type": "string"
+			},
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "verify",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+            const address2 = '0x30c21d096c03052366f12a897c48375b8661c243';
+			const abi2 = [
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			},
+			{
+				"name": "_program",
+				"type": "string"
+			}
+		],
+		"name": "storeProgram",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_var",
+				"type": "string"
+			}
+		],
+		"name": "getHash",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			},
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getProgram",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "programs",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+				const mystrage = web3.eth.contract(abi2).at(address2);
+
+				// コンストラクトのインスタンスを生成
+                const mycontract = web3.eth.contract(abi).at(address);
+				var account, id, program;
+
+				// ハッシュ生成
+				const HASH_KEY = 'HASH_KEY';
+				function generateHash (text) {
+ 				   const sha256 = new jsSHA('SHA-256', 'TEXT');
+ 				   sha256.update(text + HASH_KEY);
+ 				   return sha256.getHash('HEX');
+				}
+
+				// アカウントおよびネットワークに関する情報を表示
+				web3.version.getNetwork((error, result) => {
+                    $('#networkid').text('Network ID: '+result)
+                })
+  
+                web3.eth.getAccounts((error, result) => {
+					account = result[0]
+                    $('#accounts').text('Your accounts: '+account)
+                })
+
+				// コンテンツのアップロード(text)
+				function upContent(){
+					var inputs = Test_form.up_input.value.split(',');
+                    var ihash = generateHash(inputs[1]);
+                    mystrage.storeProgram.sendTransaction(inputs[0], inputs[1], {from: account, gas:3000000},(error2, result2) =>{
+				        $('#file').text(inputs[1])
+						mycontract.upNewProgram.sendTransaction(ihash, inputs[0],{from: account, gas:3000000},(error2, result2) =>{
+				        	$('#fhash').text(ihash + " " + inputs[0])
+                		});
+                	});
+                }
+
+				// ページの更新
+				/*function reloadFunctions(){
+					// アカウント・お金の更新
+					web3.eth.getAccounts((error, result) => {
+						if (account != result[0]){
+							location.reload();
+						}
+						account = result[0]
+    	                $('#accounts').text('Your accounts: '+account)
+                	});
+                    mycontract.getVer.call({from: account, gas:3000000},(error, result) =>{
+                        if(id != result){
+                            id = result;
+                            $('#id').text(result)
+                            mycontract.getProgram.call({from: account, gas:3000000},(error2, result2) =>{
+                                program = result2;
+				            	$('#program').text(result2)
+                           });
+                        }
+                	});
+				}
+
+				setInterval('reloadFunctions()',100);*/
+            } else {
+                document.write('Install <a href="https://metamask.io">METAMASK</a>')
+            }
+
+			
+		</script>
+		</form>
+    </body>
+</html>
