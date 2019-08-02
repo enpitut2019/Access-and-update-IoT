@@ -16,8 +16,6 @@ contract Group{
     uint8 j;
  
       modifier onlyOwner(){
-          //ifとかforで回す→×
-          //require→○
           require(isAdmin[msg.sender] == true);
               _;
           }
@@ -35,8 +33,8 @@ contract Group{
         isAdmin[msg.sender]=true;
     }
     
-    function addMember(address follower) public onlyOwner() {//onlyOwnerにしたい
-          for(j=0;j<allowedMembers[msg.sender].length;j++){//既に認証されていないか
+    function addMember(address follower) public onlyOwner() {
+          for(j=0;j<allowedMembers[msg.sender].length;j++){//既に認証されていないかcheck
                      if(follower == allowedMembers[msg.sender][j]){
                          revert();
                      }

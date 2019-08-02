@@ -103,7 +103,6 @@ function addMember(){
 
 function requestJoin(){
 	GID=document.forms.id_form2.join.value;
-	//input id の名前(↑formの名前を関数)と被らせるとだるい
     console.log("uw")
 
     group_cnt
