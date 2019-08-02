@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+    <head><meta http-equiv="content-type" charset="utf-8"></head>
+    <body>
+		<form name="Test_form" action="test.html">
+        <div id="networkid"></div>
+        <div id="accounts"></div>
+        <div>
+            <input type="text" placeholder="adder_provider" name="get_input">
+            <input type="button" value="データの取得" onclick="getData()" >
+			<div id="data"></div>
+			<input type="text" placeholder="adder_to, data" name="send_input">
+            <input type="button" value="データの送信" onclick="sendData()" >
+            <div id="send_data"></div>
+        </div>
+		<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+        <script>
+            if (typeof web3 !== 'undefined') {
+                web3 = new Web3(web3.currentProvider);
+                ethereum.enable();
+
+                const address = '0xb47444d79f11688d1df1c78d98b374d5058b23c2';
+
+                const abi =[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "follower",
+				"type": "address"
+			}
+		],
+		"name": "removeMember",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getGid",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			}
+		],
+		"name": "getData",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllowedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "createGroup",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "admin",
+				"type": "address"
+			}
+		],
+		"name": "requestJoin",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "follower",
+				"type": "address"
+			}
+		],
+		"name": "addMember",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAuthenticatedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_data",
+				"type": "string"
+			}
+		],
+		"name": "sendData",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "strage",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_to",
+				"type": "address"
+			}
+		],
+		"name": "SendData",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_dataowner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_data",
+				"type": "string"
+			}
+		],
+		"name": "StoreData",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_sender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_data",
+				"type": "string"
+			}
+		],
+		"name": "GetData",
+		"type": "event"
+	}
+]
+				// コンストラクトのインスタンスを生成
+                const mycontract = web3.eth.contract(abi).at(address);
+				var account, id, program;
+
+				// アカウントおよびネットワークに関する情報を表示
+				web3.version.getNetwork((error, result) => {
+                    $('#networkid').text('Network ID: '+result)
+                })
+  
+                web3.eth.getAccounts((error, result) => {
+					account = result[0]
+                    $('#accounts').text('Your accounts: '+account)
+                })
+
+                function getData(){
+                    var input = Test_form.get_input.value;
+                    mycontract.getData.call(input,{from: account, gas:3000000},(error, result) =>{
+					    $('#data').text(result)
+                    });
+                }
+
+                function sendData(){
+                    var inputs = Test_form.send_input.value.split(",");
+                    mycontract.sendData.sendTransaction(inputs[0],inputs[1],{from: account, gas:3000000},(error, result) =>{
+					    $('#data').text(result)
+                    });
+                }
+
+            } else {
+                document.write('Install <a href="https://metamask.io">METAMASK</a>')
+            }
+
+			
+		</script>
+		</form>
+    </body>
+</html>
