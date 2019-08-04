@@ -6,10 +6,30 @@ if (typeof web3 !== 'undefined') {
     $('#YoutAccount').text('Your Account is '+acc);
 })
 
-const group_contract = "0xe1bce9e801a3b5f6a943f8a86ba4e9336d94b8de"; 
+// 参考　venderのアドレス 0x1bd26a369e2ae041df418963177975248fa2b5ef
+const group_contract = "0x9cb2508dd1a421fbb64d855f6a9d824bd14d283f"; 
 //コントラクトを更新するたびに変更必要
 
-const group_abi=[
+[
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_adder",
+				"type": "address"
+			}
+		],
+		"name": "isSecureAdder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
 	{
 		"constant": true,
 		"inputs": [],
@@ -50,6 +70,25 @@ const group_abi=[
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_inputs",
+				"type": "uint8[]"
+			}
+		],
+		"name": "isSecureList",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -114,17 +153,31 @@ const group_abi=[
 	},
 	{
 		"constant": true,
-		"inputs": [
-			{
-				"name": "hashedMdl",
-				"type": "bytes32"
-			}
-		],
-		"name": "getIsSecure",
+		"inputs": [],
+		"name": "getDangerDevices",
 		"outputs": [
 			{
 				"name": "",
-				"type": "uint8"
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "addrTomodel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
 			}
 		],
 		"payable": false,
@@ -134,11 +187,30 @@ const group_abi=[
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "getDangerDevices",
+		"name": "ven",
 		"outputs": [
 			{
 				"name": "",
-				"type": "bytes32[]"
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getIsSecure",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
 			}
 		],
 		"payable": false,
@@ -179,6 +251,25 @@ const group_abi=[
 	},
 	{
 		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "searchModel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [],
 		"name": "getAuthenticatedMembers",
 		"outputs": [
@@ -190,6 +281,17 @@ const group_abi=[
 		"payable": false,
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_vender",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	}
 ]
 
@@ -280,29 +382,20 @@ function getModels(){
 
 function getDangerDevices(){
 	var response=[]
-
-    group_cnt
-    .getDangerDevices.call(
-    (error,res)=>{
-    if(!error){
-		for(i=0;i<res.length;i++){
-			if(res[i]==0x0000000000000000000000000000000000000000000000000000000000000000){
-				console.log('wao')
-				continue;
+	group_cnt.getAllowedMembers.call((error, res)=>{
+		if(!error){
+			for(var i = 0; i < res.length; i++){
+				group_cnt.IsSecureAdder.call(res[i],(error2, res2)=>{
+					response.push(res[i]+": "+res2);
+				})
+			}
+			if(response.length<1){
+				$('#NoDanger').text("No Dangerous Device")
 			}else{
-				console.log('uu')
-				response.push(res[i])
+			$('#DangerModels').text(response)
 			}
 		}
-		if(response.length<1){
-			$('#NoDanger').text("No Dangerous Device")
-		}else{
-		$('#DangerModels').text(response)
-		}
-    }
-	}
-	)
-
+	})
 }
 
 
