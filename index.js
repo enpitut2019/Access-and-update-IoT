@@ -10,7 +10,7 @@ if (typeof web3 !== 'undefined') {
 const group_contract = "0x9cb2508dd1a421fbb64d855f6a9d824bd14d283f"; 
 //コントラクトを更新するたびに変更必要
 
-[
+const group_abi =[
 	{
 		"constant": true,
 		"inputs": [
@@ -382,17 +382,19 @@ function getModels(){
 
 function getDangerDevices(){
 	var response=[]
+	var adder;
+	document.getElementById("DangerModels").innerHTML = "";
 	group_cnt.getAllowedMembers.call((error, res)=>{
 		if(!error){
+			console.log("1" + res)
 			for(var i = 0; i < res.length; i++){
-				group_cnt.IsSecureAdder.call(res[i],(error2, res2)=>{
+				adder = res[i]
+				group_cnt.isSecureAdder.call(res[i],(error2, res2)=>{
+					console.log("2:" + res2)
 					response.push(res[i]+": "+res2);
+					//$('#DangerModels').text(res[i]+": "+res2)
+					document.getElementById("DangerModels").innerHTML += adder+": "+res2
 				})
-			}
-			if(response.length<1){
-				$('#NoDanger').text("No Dangerous Device")
-			}else{
-			$('#DangerModels').text(response)
 			}
 		}
 	})
