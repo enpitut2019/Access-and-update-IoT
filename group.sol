@@ -19,7 +19,8 @@ contract Group{
   
     bytes32 hashedModel;
     bytes32[] DangerDevices; //function updateで使う,modelに対応するデバイス群
-    
+    mapping(address => string) addrTomodel;
+
     uint8 i;
     uint8 j;
     uint8 k;
