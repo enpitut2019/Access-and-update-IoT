@@ -6,7 +6,7 @@ if (typeof web3 !== 'undefined') {
     $('#YoutAccount').text('Your Account is '+acc);
 })
 
-const group_contract = "0x3cdf2e021142f6b2345b12ad4e48f063b0b2c04f"; 
+const group_contract = "0xe1bce9e801a3b5f6a943f8a86ba4e9336d94b8de"; 
 //コントラクトを更新するたびに変更必要
 
 const group_abi=[
@@ -17,7 +17,7 @@ const group_abi=[
 		"outputs": [
 			{
 				"name": "",
-				"type": "bytes32"
+				"type": "bytes32[]"
 			}
 		],
 		"payable": false,
@@ -92,6 +92,57 @@ const group_abi=[
 		],
 		"payable": false,
 		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "hashed",
+				"type": "bytes32[]"
+			},
+			{
+				"name": "goodbad",
+				"type": "uint8[]"
+			}
+		],
+		"name": "updateinfo",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "hashedMdl",
+				"type": "bytes32"
+			}
+		],
+		"name": "getIsSecure",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getDangerDevices",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -179,31 +230,38 @@ function requestJoin(){
 }
 
 function getAuthenticatedMembers(){
+	var html='';
 
     group_cnt
     .getAuthenticatedMembers.call(
     (error,res)=>{
     if(!error){
 		console.log("wawa")
-        $('#authenticated').text(res)
+		$('#authenticated').text(res)
     }
 	}
 	)
 
 }
 
-function informgrp(){
+
+
+function changeInfo(){
+
+	// modelHash=document.forms.id_form3.cmodel.value;
+	// modelState=document.forms.id_form3.cstate.value;
+	modelHash=[]
+	modelHash.push(document.forms.id_form3.cmodel.value)
+	modelState=[]
+	modelState.push(document.forms.id_form3.cstate.value)
+    console.log("uw")
 
     group_cnt
-    .getModels.call(
-    (error,res)=>{
-    if(!error){
-		console.log("wawa")
-        $('#hashedmodels').text(res)
-    }
-	}
-	)
-
+    .updateinfo(modelHash,modelState,{
+        from: acc,
+        gas: 1000000,
+},(error,result)=>{
+})
 }
 
 function getModels(){
@@ -220,6 +278,32 @@ function getModels(){
 
 }
 
+function getDangerDevices(){
+	var response=[]
+
+    group_cnt
+    .getDangerDevices.call(
+    (error,res)=>{
+    if(!error){
+		for(i=0;i<res.length;i++){
+			if(res[i]==0x0000000000000000000000000000000000000000000000000000000000000000){
+				console.log('wao')
+				continue;
+			}else{
+				console.log('uu')
+				response.push(res[i])
+			}
+		}
+		if(response.length<1){
+			$('#NoDanger').text("No Dangerous Device")
+		}else{
+		$('#DangerModels').text(response)
+		}
+    }
+	}
+	)
+
+}
 
 
 }else{

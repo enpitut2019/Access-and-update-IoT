@@ -13,15 +13,16 @@ contract Group{
     mapping(address=>bool) isAdmin;
     mapping(address=>bool) isFollower;
 
-    mapping(string => address[])modelToFollowers;
-    mapping(bytes32 => uint8) isSecure;//初期値0,モデルのハッシュ値で,そのモデル化が安全かチェック
+    mapping(bytes32 => address[])modelToFollowers;
+    mapping(bytes32 => uint8) isSecure;//初期値0安全,モデルのハッシュ値で,そのモデル化が安全かチェック
     mapping(address => bytes32[]) hasModels;
-    
-    
+  
     bytes32 hashedModel;
-
+    bytes32[] DangerDevices; //function updateで使う,modelに対応するデバイス群
+    
     uint8 i;
     uint8 j;
+    uint8 k;
  
       modifier onlyOwner(){
           require(isAdmin[msg.sender] == true);
@@ -41,7 +42,6 @@ contract Group{
         isAdmin[msg.sender]=true;
     }
 
-    
     function addMember(address follower) public onlyOwner() {
           for(j=0;j<allowedMembers[msg.sender].length;j++){//既に認証されていないかcheck
                      if(follower == allowedMembers[msg.sender][j]){
@@ -50,8 +50,6 @@ contract Group{
                  }
         allowedMembers[msg.sender].push(follower);
     }
-    
-    
 
     function requestJoin(address admin,string memory ownmodel)public onlyIndependent(){
         for(i = 0; i<allowedMembers[admin].length; i++){
@@ -60,8 +58,9 @@ contract Group{
                 belongTo[msg.sender] = adminToGid[admin];
                 isFollower[msg.sender]=true;
                 hashedModel=getHash(ownmodel);
- 
-                modelToFollowers[ownmodel].push(msg.sender); //model名とデバイスのマッピング//無くてもいい?
+
+
+                modelToFollowers[hashedModel].push(msg.sender); //model名とデバイスアドレスのマッピング//無くてもいい?
                 hasModels[admin].push(hashedModel);//adminの担当カ所のfollowerのモデル
                 isSecure[hashedModel]=0;
                
@@ -87,10 +86,6 @@ contract Group{
          }
     }
 
- 
-     
-
-
     function getAuthenticatedMembers()public view onlyOwner() returns(address[] memory){
         return authenticatedMembers[msg.sender];
     }
@@ -103,26 +98,41 @@ contract Group{
         }
     }
     
+    function getAllowedMembers() public view returns(address[] memory){
+        return allowedMembers[msg.sender];
+    }
+    
      function getModels() public view returns( bytes32[] memory ){//jsからinform通知が来たらmodel情報を返す
         return hasModels[msg.sender];
     }
     
-    
-    function getAllowedMembers() public view returns(address[] memory){
-        return allowedMembers[msg.sender];
-    }
-
 
       function getIsSecure(bytes32 hashedMdl)public view returns(uint8){
           //adminのpushしていく
         return isSecure[hashedMdl];//adminがfollowerのmodelがセーフかどうか返す
     }
     
-    
-    function updateinfo(bytes32[] memory hashed, uint8[] memory goodbad)public {
-        for(i=0;i<hashed.length;i++){
-         isSecure[hashed[i]]=goodbad[i];
-        }
+    function getDangerDevices()public view returns(bytes32[] memory){
+        return DangerDevices;
     }
     
-}    
+    function updateinfo(bytes32[] memory hashed, uint8[] memory goodbad)public {//adminが呼呼ぶ
+    
+        for(i=0;i<hashed.length;i++){//hashed->hashedmodel
+        isSecure[hashed[i]]=goodbad[i];
+         //modelの情報を更新
+         if(goodbad[i]==1){
+             DangerDevices.push(hashed[i]);
+         }
+         if(goodbad[i]==0){//0だった場合
+             for(j=0;j<DangerDevices.length;j++){//DangerDevice配列内かチェック
+                 if(DangerDevices[j]==hashed[i]){
+                     DangerDevices[j]=byte(0x00);//DangerDeviceの削除
+                 }
+             }
+         }
+        }
+        
+    }
+    }
+    
