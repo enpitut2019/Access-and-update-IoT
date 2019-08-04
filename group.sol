@@ -7,7 +7,6 @@ contract Group{
     mapping(address => uint256) adminToGid;//adminの属するグループ
     
     mapping(address=>address[]) allowedMembers;//adminが許可した機器アドレス(まだ認証されてない)
-    
     mapping(address=>address[]) authenticatedMembers;//認証された機器
     mapping(address=>uint256) belongTo;//機器が属しているグループID
     mapping(address=>bool) isAdmin;
