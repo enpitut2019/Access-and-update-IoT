@@ -752,11 +752,11 @@ function addMember(){
 }
 
 function requestJoin(){
-	GID=document.forms.id_form2.join.value;
+	GID=document.forms.id_form2.join.value.split(",");
     console.log("uw")
 
     group_cnt
-    .requestJoin(GID,{
+    .requestJoin(GID[0],GID[1],{
         from: acc,
         gas: 1000000,
 },(error,result)=>{
@@ -824,32 +824,7 @@ function getModels(){
 
 
 
-function getDangerDevices(){
-	var response=[]
-	var adder;
-	document.getElementById("Models").innerHTML = "";
-	group_cnt.getAllowedMembers.call((error, res)=>{
-		if(!error){
-			console.log("1" + res)
-			for(var i = 0; i < res.length; i++){
-				adder = res[i]
-				group_cnt.isSecureAdder.call(res[i],(error2, res2)=>{
-					console.log("2:" + res2)
-					response.push(res[i]+": "+res2);
-					
-// 					if(res2==0){
-// 						sod="安全"
-// 					}else{
-// 						sod="危険"
-// 					}
-
-// 					//$('#DangerModels').text(res[i]+": "+res2)
-// 					document.getElementById("Models").innerHTML +="<br>"+ adder+": "+sod
-// 				})
-// 			}
-// 		}
-// 	})
-// }
+				
 
 function getIsSecure(){
 	addr=document.forms.id_form3.che.value;
