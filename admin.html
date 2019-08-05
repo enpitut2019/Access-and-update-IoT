@@ -49,11 +49,18 @@
     <div id="hashedmodels"></div>
 
     <br>
-    <p>モデルの安全危険</p>
+    <!-- <p>モデルの安全危険</p> -->
     <!-- ここもstringがいいけど,,string配列できない、難しい -->
-    <input type="button" value="safeOrdanger" onclick="getDangerDevices();" />
+    <!-- <input type="button" value="safeOrdanger" onclick="getDangerDevices();" />
     <p class="bg-info" id="NoDanger"></p>
-    <div id="Models"></div>
+    <div id="Models"></div> -->
+
+    <p>モデルチェック</p>
+    <form name="form3" id="id_form3" action="">
+        <input  id="che" type="string" placeholder="Ethereum Account Address"  />
+        <input type="button" value="check" onclick="getIsSecure();" />
+        </form>
+        <div id="isDanger"></div>
 
 
     

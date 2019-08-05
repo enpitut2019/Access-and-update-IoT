@@ -763,14 +763,18 @@ function requestJoin(){
 }
 
 function getAuthenticatedMembers(){
-	var html='';
-
+	document.getElementById("authenticated").innerHTML = "";
     group_cnt
     .getAuthenticatedMembers.call(
     (error,res)=>{
     if(!error){
 		console.log("wawa")
-		$('#authenticated').text(res)
+		for(a=0;a<res.length;a++){
+			models=res[a]
+			console.log("wawa")
+			document.getElementById("authenticated").innerHTML +="<br>"+ models;
+			}
+	
     }
 	}
 	)
@@ -798,13 +802,16 @@ function getAuthenticatedMembers(){
 // }
 
 function getModels(){
-
+	document.getElementById("hashedmodels").innerHTML = "";
     group_cnt
     .getModels.call(
     (error,res)=>{
     if(!error){
+		for(a=0;a<res.length;a++){
+		models=res[a]
 		console.log("wawa")
-        $('#hashedmodels').text(res)
+		document.getElementById("hashedmodels").innerHTML +="<br>"+ models;
+		}
     }
 	}
 	)
@@ -814,32 +821,51 @@ function getModels(){
 
 
 
-function getDangerDevices(){
-	var response=[]
-	var adder;
-	document.getElementById("Models").innerHTML = "";
-	group_cnt.getAllowedMembers.call((error, res)=>{
+// function getDangerDevices(){//async functionは関数として見られない
+
+		
+// 	var response=[]
+// 	var adder;
+// 	document.getElementById("Models").innerHTML = "";
+// 	group_cnt.getAllowedMembers.call((error, res)=>{
+// 		if(!error){
+// 			console.log("1" + res)
+// 			for(var i = 0; i < res.length; i++){
+// 				adder = res[i]
+// 				group_cnt.isSecureAdder.call(res[i],(error2, res2)=>{
+// 					console.log("2:" + res2)
+// 					response.push(res[i]+": "+res2);
+					
+// 					if(res2==0){
+// 						sod="安全"
+// 					}else{
+// 						sod="危険"
+// 					}
+
+// 					//$('#DangerModels').text(res[i]+": "+res2)
+// 					document.getElementById("Models").innerHTML +="<br>"+ adder+": "+sod
+// 				})
+// 			}
+// 		}
+// 	})
+// }
+
+function getIsSecure(){
+	addr=document.forms.id_form3.che.value;
+
+    group_cnt
+    .isSecureAdder(addr,
+    (error,res)=>{
 		if(!error){
-			console.log("1" + res)
-			for(var i = 0; i < res.length; i++){
-				adder = res[i]
-				group_cnt.isSecureAdder.call(res[i],(error2, res2)=>{
-					console.log("2:" + res2)
-					response.push(res[i]+": "+res2);
-
-					if(res2==0){
-						sod="安全"
-					}else{
-						sod="危険"
-					}
-
-					//$('#DangerModels').text(res[i]+": "+res2)
-					document.getElementById("Models").innerHTML +="<br>"+ adder+": "+sod
-				})
+			if(res==1){
+			$('#isDanger').text("Dangerous")
+			}else{
+			$('#isDanger').text("No problem")
 			}
 		}
 	})
-}
+
+	}
 
 function accessCamera(){
 
