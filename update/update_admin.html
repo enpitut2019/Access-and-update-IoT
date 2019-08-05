@@ -26,6 +26,7 @@
             if (typeof web3 !== 'undefined') {
                 web3 = new Web3(web3.currentProvider);
                 ethereum.enable();
+
                 const address = '0x112738c1e8e69a86f7e24ddc97cbf15898e1a699';
                 const abi =[
 	{
@@ -282,6 +283,7 @@
 		"type": "constructor"
 	}
 ]
+
 const address2 = '0xf69113be8682d3eb3b603f51dab04c16f02fd9b3';
 			const abi2 = [
 	{
@@ -755,6 +757,7 @@ const address2 = '0xf69113be8682d3eb3b603f51dab04c16f02fd9b3';
 						account = result[0]
     	                $('#accounts').text('Your accounts: '+account)
                 	});
+
                     mycontract.getUpInfo.call({from: account, gas:3000000},(error, result) =>{
 						console.log("id:" + id + " ver:"+ ver)
 						console.log("result:"+ result)
