@@ -704,7 +704,7 @@ const address2 = '0xf69113be8682d3eb3b603f51dab04c16f02fd9b3';
 				// venderのインスタンスを生成
 				const mycontract = web3.eth.contract(abi).at(address);
 				
-				var account, id, program, ver;
+				var account, id, program, ver, content, title;
 				// ハッシュ生成
 				const HASH_KEY = 'HASH_KEY';
 				function generateHash (text) {
@@ -761,6 +761,8 @@ const address2 = '0xf69113be8682d3eb3b603f51dab04c16f02fd9b3';
                     mycontract.getUpInfo.call({from: account, gas:3000000},(error, result) =>{
 						console.log("id:" + id + " ver:"+ ver)
 						console.log("result:"+ result)
+						console.log(id == result[0])
+						console.log(ver === result[1]) // これがtrue にならない　なぜ？
 						// 最新の情報に違いが無ければ取得しないようにしたいのに、現状常に取得しに行っている…
 						if(id == result[0] && ver == result[1]){}
 						else{
@@ -774,14 +776,18 @@ const address2 = '0xf69113be8682d3eb3b603f51dab04c16f02fd9b3';
 									var ghash, bhash
 									document.getElementById("address").innerHTML = "アドレス: " 
 									document.getElementById("address").innerHTML += result2
-                            		mystrage.getProgram.call(result[0],result[1]-1,{from: account, gas:3000000},(error2, result2) =>{
-                                		program = result2;
-				    	        		$('#program').text(result2)
+                            		mystrage.getProgram.call(result[0],result[1]-1,{from: account, gas:3000000},(error3, result3) =>{
+                                		program = result3;
+				    	        		$('#program').text(result3)
 										ghash = generateHash(program)
 										$('#ghash').text(ghash)
-										mycontract.verify.call(ghash,result[0], {from: account, gas:3000000}, (error3, result3) => {
-											$('#eq').text(result3)
+										mycontract.verify.call(ghash,result[0], {from: account, gas:3000000}, (error4, result4) => {
+											$('#eq').text(result4)
 										})
+										for(var i = 0; i < result2.length; i++){
+											WriteFile(result2[i], result3)
+											console.log(result2[i])
+										}
                            			});
 								}
 							})
@@ -794,6 +800,61 @@ const address2 = '0xf69113be8682d3eb3b603f51dab04c16f02fd9b3';
                 document.write('Install <a href="https://metamask.io">METAMASK</a>')
             }
 			
+			function onInitFs(fs) {
+				// titleでファイル名決定
+  				fs.root.getFile(title, {create: true, exclusive: false}, function(fileEntry) {
+    				fileEntry.createWriter(function(fileWriter) {
+     					fileWriter.onerror = function(e) {
+        					errorHandler(e)
+      					};
+      					fileWriter.onwriteend = function(e) {
+       						if (fileWriter.length === 0) {
+								// content　が書き込む内容
+        						var blob = new Blob([content], {type: "text/pain"});
+        						fileWriter.write(blob);
+        					} else {
+          						console.log('Write completed.' + title);
+        					}
+      					};
+      					fileWriter.truncate(0);
+    				}, errorHandler);
+  				}, errorHandler);
+			}
+
+			function WriteFile(_title, _content){
+				title = _title;
+				content = _content;
+				window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+
+  				window.requestFileSystem(window.TEMPORARY, 1*1024*1024, onInitFs, errorHandler);
+			}
+
+  			function errorHandler(e) {
+    			var msg = '';
+  
+    			switch (e.code) {
+    				case FileError.QUOTA_EXCEEDED_ERR:
+        				msg = 'QUOTA_EXCEEDED_ERR';
+        				break;
+      				case FileError.NOT_FOUND_ERR:
+        				msg = 'NOT_FOUND_ERR';
+        				break;
+      				case FileError.SECURITY_ERR:
+        				msg = 'SECURITY_ERR';
+        				break;
+      				case FileError.INVALID_MODIFICATION_ERR:
+        				msg = 'INVALID_MODIFICATION_ERR';
+        				break;
+      				case FileError.INVALID_STATE_ERR:
+        				msg = 'INVALID_STATE_ERR';
+        				break;
+      				default:
+       					msg = 'Unknown Error';
+        				break;
+    			};
+  
+    			console.log('Error: ' + msg);
+  			}
 		</script>
 		</form>
     </body>
