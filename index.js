@@ -9,7 +9,7 @@ if (typeof web3 !== 'undefined') {
 const group_contract = "0xedc7cda832a934664fc1489e813fa5bdf88f3f69"; 
 const communication_contract = "0x1c9a9cfbeb386ef460eaa4bc4ca7e23527c96161"; 
 //コントラクトを更新するたびに変更必要
-
+  
 const communication_abi=[
 	{
 		"constant": true,
@@ -726,6 +726,7 @@ const group_abi=[
 ]
 
 
+
 group_cnt=web3.eth.contract(group_abi).at(group_contract)
 commu_cnt=web3.eth.contract(communication_abi).at(communication_contract)
 
@@ -821,20 +822,20 @@ function getModels(){
 
 
 
-// function getDangerDevices(){//async functionは関数として見られない
 
-		
-// 	var response=[]
-// 	var adder;
-// 	document.getElementById("Models").innerHTML = "";
-// 	group_cnt.getAllowedMembers.call((error, res)=>{
-// 		if(!error){
-// 			console.log("1" + res)
-// 			for(var i = 0; i < res.length; i++){
-// 				adder = res[i]
-// 				group_cnt.isSecureAdder.call(res[i],(error2, res2)=>{
-// 					console.log("2:" + res2)
-// 					response.push(res[i]+": "+res2);
+
+function getDangerDevices(){
+	var response=[]
+	var adder;
+	document.getElementById("Models").innerHTML = "";
+	group_cnt.getAllowedMembers.call((error, res)=>{
+		if(!error){
+			console.log("1" + res)
+			for(var i = 0; i < res.length; i++){
+				adder = res[i]
+				group_cnt.isSecureAdder.call(res[i],(error2, res2)=>{
+					console.log("2:" + res2)
+					response.push(res[i]+": "+res2);
 					
 // 					if(res2==0){
 // 						sod="安全"
