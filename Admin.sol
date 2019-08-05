@@ -1,6 +1,5 @@
 pragma solidity ^0.5.1;
 
-
 contract Group{
     address[] admins;
     uint256 groupId=0;
@@ -161,19 +160,37 @@ contract Group{
     }
 }
 
-/*
-    // Venderへモデルの状態をリクエスト
-    function requestState(address _vender, uint8[] memory _states) public{
-        Vender ve = Vender(_vender);
-        ve.checkStates(msg.sender, hasModels[msg.sender], _states);
+
+contract Communicate is Group{
+    mapping(address=>mapping(address=>string[])) public strage;
+    
+    event SendData(address _from, address _to);
+    event StoreData(address _dataowner, address _from, string _data);
+    event GetData(address _sender, address _from, string _data);
+    
+    constructor(address _vender) Group(_vender) public{}
+    
+    function sendData(address _to,  string memory _data) public{
+        emit SendData(_to,msg.sender);
+        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0 && belongTo[msg.sender] == belongTo[_to]){
+            if(isSecureAdder(_to) == 1) revert("アクセス先が危険です");
+            strage[_to][msg.sender].push(_data);
+            emit StoreData(_to, msg.sender, _data);
+        }else{
+            revert("不正なアクセスです");
+        }
     }
     
-    // モデルの状態を変更
-    function chengeState(uint8[] memory _states, bytes32[] memory _models) public{
-        for(i = 0; i < _models.length; i++){
-            isSecure[_models[i]] = _states[i];
+    function getData(address _from) view public returns(string memory){
+        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0 && belongTo[msg.sender] == belongTo[_from]){
+            if(isSecureAdder(_from) == 1) revert("アクセス先が危険です");
+            return strage[msg.sender][_from][strage[msg.sender][_from].length-1];
+        }else{
+            revert("不正なアクセスです");
         }
-    }*/
+    }
+}
+
 
 // 開発者側の処理
 contract Vender {

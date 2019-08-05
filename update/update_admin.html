@@ -6,7 +6,8 @@
 		<form name="Test_form" action="test.html">
         <div id="networkid"></div>
         <div id="accounts"></div>
-        <div>現在のバージョン:&nbsp;<div id="id"></div> <br>
+		<div>最新のアップデート情報:&nbsp;<div id="id"></div> 
+		<div id="address">アドレス: </div><br>
         プログラム↓<br>
 		<div id="program"></div>
         <br>
@@ -15,6 +16,9 @@
 		<!--ブロックチェーンに保管されたハッシュ値:&nbsp; <div id="bhash"></div><br>-->
 		取得したファイルのハッシュ値:&nbsp; <div id="ghash"></div><br>
 		等しいかどうか: &nbsp; <div id="eq"></div>
+		<div>モデルの最新のバージョンを取得</div>
+		<input type="text" placeholder="string_model" name="get_ver"> &nbsp;&nbsp;  <input type="button" value="最新バージョンを取得" onclick="getVer()"><br>
+		<div id="ver"></div>
         </div>
 		<script type="text/javascript" src="./jsSHA-master/src/sha256.js"></script>
 		<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
@@ -23,32 +27,26 @@
                 web3 = new Web3(web3.currentProvider);
                 ethereum.enable();
 
-                const address = '0x4eec6e7e7109b3f0911fa009e4dbb58642702308';
-
+                const address = '0x112738c1e8e69a86f7e24ddc97cbf15898e1a699';
                 const abi =[
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "phash",
-				"type": "string"
-			},
-			{
-				"name": "_model",
-				"type": "string"
+				"name": "",
+				"type": "bytes32"
 			}
 		],
-		"name": "upNewProgram",
-		"outputs": [],
+		"name": "ver",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	},
 	{
 		"constant": true,
@@ -112,22 +110,17 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
-				"name": "",
+				"name": "_model",
 				"type": "string"
 			}
 		],
-		"name": "ver",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"name": "badModel",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -152,9 +145,146 @@
 		"payable": false,
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_models",
+				"type": "bytes32[]"
+			},
+			{
+				"name": "_states",
+				"type": "uint8[]"
+			}
+		],
+		"name": "getModelStates",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getUpInfo",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "safeModel",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "phash",
+				"type": "string"
+			},
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "upNewProgram",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getState",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "model_state",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "up_model",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	}
 ]
-const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
+
+const address2 = '0xf69113be8682d3eb3b603f51dab04c16f02fd9b3';
 			const abi2 = [
 	{
 		"constant": false,
@@ -260,12 +390,321 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 		"type": "function"
 	}
 ]
+
+				const address_admin = "0x5b2975eb771f20eafd8d6144860faa0358ccaa70";
+				const abi_admin = [
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "follower",
+				"type": "address"
+			}
+		],
+		"name": "addMember",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "createGroup",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_inputs",
+				"type": "uint8[]"
+			}
+		],
+		"name": "isSecureList",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "follower",
+				"type": "address"
+			}
+		],
+		"name": "removeMember",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "admin",
+				"type": "address"
+			},
+			{
+				"name": "ownmodel",
+				"type": "string"
+			}
+		],
+		"name": "requestJoin",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "hashed",
+				"type": "bytes32[]"
+			},
+			{
+				"name": "goodbad",
+				"type": "uint8[]"
+			}
+		],
+		"name": "updateinfo",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_vender",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "addrTomodel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllowedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAuthenticatedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getDangerDevices",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getGid",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_var",
+				"type": "string"
+			}
+		],
+		"name": "getHash",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getIsSecure",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getModels",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getModeltoFollowers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_adder",
+				"type": "address"
+			}
+		],
+		"name": "isSecureAdder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "searchModel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "ven",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+				// Storeのインスタンス
 				const mystrage = web3.eth.contract(abi2).at(address2);
 
-				// コンストラクトのインスタンスを生成
-                const mycontract = web3.eth.contract(abi).at(address);
-				var account, id, program;
+				// adminのインスタンス
+				const admin = web3.eth.contract(abi_admin).at(address_admin);
 
+				// venderのインスタンスを生成
+				const mycontract = web3.eth.contract(abi).at(address);
+				
+				var account, id, program, ver;
 				// ハッシュ生成
 				const HASH_KEY = 'HASH_KEY';
 				function generateHash (text) {
@@ -273,7 +712,6 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
  				   sha256.update(text + HASH_KEY);
  				   return sha256.getHash('HEX');
 				}
-
 				// アカウントおよびネットワークに関する情報を表示
 				web3.version.getNetwork((error, result) => {
                     $('#networkid').text('Network ID: '+result)
@@ -283,17 +721,32 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 					account = result[0]
                     $('#accounts').text('Your accounts: '+account)
                 })
-
-                mycontract.getVer.call('A',{from: account, gas:3000000},(error, result) =>{
-                    id = result;
-					$('#id').text(result)
+                mycontract.getUpInfo.call({from: account, gas:3000000},(error, result) =>{
+					console.log(result)
+					id = result[0];
+					ver = result[1];
+					$('#id').text("model: " + result[0] + " ver: " + result[1]);
+					admin.searchModel(result[0], {from: account, gas:3000000},(error2, result2) =>{
+								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
+								else{
+									var ghash, bhash
+									document.getElementById("address").innerHTML = "アドレス: " 
+									document.getElementById("address").innerHTML += result2
+								}
+							})
                 });
-
                 mystrage.getProgram.call('A',id-1,{from: account, gas:3000000},(error, result) =>{
                     program = result;
 					$('#program').text(result)
-                });
+				});
 
+				function getVer(){
+					var input = Test_form.get_ver.value
+					mycontract.getVer(input, {from: account, gas:3000000},(error, result) =>{
+						$('#ver').text(result)
+					});
+				}
+				
 				// ページの更新
 				function reloadFunctions(){
 					// アカウント・お金の更新
@@ -304,29 +757,42 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 						account = result[0]
     	                $('#accounts').text('Your accounts: '+account)
                 	});
-                    mycontract.getVer.call('A',{from: account, gas:3000000},(error, result) =>{
-                        if(id != result){
-                            id = result;
-                            $('#id').text(result)
-							var ghash, bhash
-                            mystrage.getProgram.call('A',id-1,{from: account, gas:3000000},(error2, result2) =>{
-                                program = result2;
-				            	$('#program').text(result2)
-								ghash = generateHash(program)
-								$('#ghash').text(ghash)
-								mycontract.verify.call(ghash,'A', {from: account, gas:3000000}, (error3, result3) => {
-									$('#eq').text(result3)
-								})
-                            });
+
+                    mycontract.getUpInfo.call({from: account, gas:3000000},(error, result) =>{
+						console.log("id:" + id + " ver:"+ ver)
+						console.log("result:"+ result)
+						// 最新の情報に違いが無ければ取得しないようにしたいのに、現状常に取得しに行っている…
+						if(id == result[0] && ver == result[1]){}
+						else{
+							id = result[0];
+							ver = result[1]
+							console.log("get")
+							$('#id').text("model: " + result[0] + " ver: " + result[1])
+							admin.searchModel(result[0], {from: account, gas:3000000},(error2, result2) =>{
+								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
+								else{
+									var ghash, bhash
+									document.getElementById("address").innerHTML = "アドレス: " 
+									document.getElementById("address").innerHTML += result2
+                            		mystrage.getProgram.call(result[0],result[1]-1,{from: account, gas:3000000},(error2, result2) =>{
+                                		program = result2;
+				    	        		$('#program').text(result2)
+										ghash = generateHash(program)
+										$('#ghash').text(ghash)
+										mycontract.verify.call(ghash,result[0], {from: account, gas:3000000}, (error3, result3) => {
+											$('#eq').text(result3)
+										})
+                           			});
+								}
+							})
+							
                         }
                 	});
 				}
-
 				setInterval('reloadFunctions()',100);
             } else {
                 document.write('Install <a href="https://metamask.io">METAMASK</a>')
             }
-
 			
 		</script>
 		</form>
