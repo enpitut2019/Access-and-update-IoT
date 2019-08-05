@@ -9,7 +9,26 @@ if (typeof web3 !== 'undefined') {
 const group_contract = "0xedc7cda832a934664fc1489e813fa5bdf88f3f69"; 
 //コントラクトを更新するたびに変更必要
 
-const group_abi=[
+const group_abi =[
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_adder",
+				"type": "address"
+			}
+		],
+		"name": "isSecureAdder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
 	{
 		"constant": true,
 		"inputs": [
@@ -394,6 +413,7 @@ function getDangerDevices(){
 				group_cnt.isSecureAdder.call(res[i],(error2, res2)=>{
 					console.log("2:" + res2)
 					response.push(res[i]+": "+res2);
+
 					
 					if(res2==0){
 						sod="安全"
