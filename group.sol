@@ -160,7 +160,6 @@ contract Group{
     }
 }
 
-
 contract Communicate is Group{
     mapping(address=>mapping(address=>string[])) public strage;
     
@@ -192,14 +191,16 @@ contract Communicate is Group{
 }
 
 
+pragma solidity ^0.5.1;
+
 // 開発者側の処理
 contract Vender {
     mapping(bytes32=>uint256) public ver; // モデルに対応したバージョン番号
     mapping(bytes32=>mapping(uint256=>string)) verfier; // モデルのバージョンに対応したファームウェアのハッシュ値(検証用)
     mapping(bytes32=>uint8) public model_state; // 0 safe, 1 脆弱性含む
+    string[] public up_model; // 公開したアップデートファイルに対応したモデル名
     
-    constructor() public{
-    }
+    constructor() public{}
     
     // ハッシュ関数(文字列 -> ハッシュ値)　文字列の比較に使用
     function getHash(string memory _var) public pure returns (bytes32){
@@ -213,6 +214,7 @@ contract Vender {
         bytes32 model_hash = getHash(_model);
         ver[model_hash]+=1; //　バーションは１から
         verfier[model_hash][ver[model_hash]] = phash;
+        up_model.push(_model);
     }
     
     // モデルの検証　受け取ったハッシュ値と保存されてる最新のファームウェアのハッシュ値を、ハッシュ値で比較
@@ -258,5 +260,10 @@ contract Vender {
             _states[i] = model_state[_models[i]];
         }
         return _states;
+    }
+    
+    // 最新のアップデート内容の取得(モデル名とバージョン名)
+    function getUpInfo() view public returns(string memory, uint256){
+        return (up_model[up_model.length - 1], getVer(up_model[up_model.length - 1]));
     }
 }

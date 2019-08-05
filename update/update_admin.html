@@ -26,7 +26,7 @@
             if (typeof web3 !== 'undefined') {
                 web3 = new Web3(web3.currentProvider);
                 ethereum.enable();
-                const address = '0x67769ab010da01f330c55cfc85c63c5e5dbbedec';
+                const address = '0x112738c1e8e69a86f7e24ddc97cbf15898e1a699';
                 const abi =[
 	{
 		"constant": true,
@@ -282,7 +282,7 @@
 		"type": "constructor"
 	}
 ]
-const address2 = '0xd5aef228b629195382cd100d2f5c9ac83fb1eb8b';
+const address2 = '0xf69113be8682d3eb3b603f51dab04c16f02fd9b3';
 			const abi2 = [
 	{
 		"constant": false,
@@ -389,7 +389,7 @@ const address2 = '0xd5aef228b629195382cd100d2f5c9ac83fb1eb8b';
 	}
 ]
 
-				const address_admin = "0xd5aef228b629195382cd100d2f5c9ac83fb1eb8b";
+				const address_admin = "0x5b2975eb771f20eafd8d6144860faa0358ccaa70";
 				const abi_admin = [
 	{
 		"constant": false,
@@ -724,7 +724,7 @@ const address2 = '0xd5aef228b629195382cd100d2f5c9ac83fb1eb8b';
 					id = result[0];
 					ver = result[1];
 					$('#id').text("model: " + result[0] + " ver: " + result[1]);
-					admin.getModeltoFollowers(result[0], {from: account, gas:3000000},(error2, result2) =>{
+					admin.searchModel(result[0], {from: account, gas:3000000},(error2, result2) =>{
 								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
 								else{
 									var ghash, bhash
@@ -765,7 +765,7 @@ const address2 = '0xd5aef228b629195382cd100d2f5c9ac83fb1eb8b';
 							ver = result[1]
 							console.log("get")
 							$('#id').text("model: " + result[0] + " ver: " + result[1])
-							admin.getModeltoFollowers(result[0], {from: account, gas:3000000},(error2, result2) =>{
+							admin.searchModel(result[0], {from: account, gas:3000000},(error2, result2) =>{
 								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
 								else{
 									var ghash, bhash
