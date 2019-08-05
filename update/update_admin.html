@@ -6,7 +6,8 @@
 		<form name="Test_form" action="test.html">
         <div id="networkid"></div>
         <div id="accounts"></div>
-        <div>現在のバージョン:&nbsp;<div id="id"></div> <br>
+		<div>最新のアップデート情報:&nbsp;<div id="id"></div> 
+		<div id="address">アドレス: </div><br>
         プログラム↓<br>
 		<div id="program"></div>
         <br>
@@ -716,9 +717,18 @@ const address2 = '0x6e1211967908d57d9abe3770812fa8d21f407e3e';
                     $('#accounts').text('Your accounts: '+account)
                 })
                 mycontract.getUpInfo.call({from: account, gas:3000000},(error, result) =>{
+					console.log(result)
 					id = result[0];
 					ver = result[1];
 					$('#id').text("model: " + result[0] + " ver: " + result[1]);
+					admin.getModeltoFollowers(result[0], {from: account, gas:3000000},(error2, result2) =>{
+								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
+								else{
+									var ghash, bhash
+									document.getElementById("address").innerHTML = "アドレス: " 
+									document.getElementById("address").innerHTML += result2
+								}
+							})
                 });
                 mystrage.getProgram.call('A',id-1,{from: account, gas:3000000},(error, result) =>{
                     program = result;
@@ -736,15 +746,18 @@ const address2 = '0x6e1211967908d57d9abe3770812fa8d21f407e3e';
     	                $('#accounts').text('Your accounts: '+account)
                 	});
                     mycontract.getUpInfo.call({from: account, gas:3000000},(error, result) =>{
-                        if(id != result[0] && ver != result[1]){
+						console.log("id:" + id + " ver:"+ ver)
+						console.log("result:"+ result)
+                        if(id != result[0] || ver != result[1]){
 							id = result[0];
 							ver = result[1]
-							$('#id').text(result)
+							$('#id').text("model: " + result[0] + " ver: " + result[1])
 							admin.getModeltoFollowers(result[0], {from: account, gas:3000000},(error2, result2) =>{
 								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
 								else{
 									var ghash, bhash
-									$('#program').text(result2)
+									document.getElementById("address").innerHTML = "アドレス: " 
+									document.getElementById("address").innerHTML += result2
 									/*for(var i = 0; i < result2.length; i++){
                             			mystrage.getProgram.call(result2[i],ver-1,{from: account, gas:3000000},(error2, result2) =>{
                                 			program = result2;
