@@ -6,11 +6,29 @@ if (typeof web3 !== 'undefined') {
     $('#YoutAccount').text('Your Account is '+acc);
 })
 
-// 参考　venderのアドレス 0x1bd26a369e2ae041df418963177975248fa2b5ef
-const group_contract = "0x9cb2508dd1a421fbb64d855f6a9d824bd14d283f"; 
+const group_contract = "0xedc7cda832a934664fc1489e813fa5bdf88f3f69"; 
 //コントラクトを更新するたびに変更必要
 
 const group_abi =[
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_adder",
+				"type": "address"
+			}
+		],
+		"name": "isSecureAdder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
 	{
 		"constant": true,
 		"inputs": [
@@ -348,23 +366,23 @@ function getAuthenticatedMembers(){
 
 
 
-function changeInfo(){
+// function changeInfo(){
 
-	// modelHash=document.forms.id_form3.cmodel.value;
-	// modelState=document.forms.id_form3.cstate.value;
-	modelHash=[]
-	modelHash.push(document.forms.id_form3.cmodel.value)
-	modelState=[]
-	modelState.push(document.forms.id_form3.cstate.value)
-    console.log("uw")
+// 	// modelHash=document.forms.id_form3.cmodel.value;
+// 	// modelState=document.forms.id_form3.cstate.value;
+// 	modelHash=[]
+// 	modelHash.push(document.forms.id_form3.cmodel.value)
+// 	modelState=[]
+// 	modelState.push(document.forms.id_form3.cstate.value)
+//     console.log("uw")
 
-    group_cnt
-    .updateinfo(modelHash,modelState,{
-        from: acc,
-        gas: 1000000,
-},(error,result)=>{
-})
-}
+//     group_cnt
+//     .updateinfo(modelHash,modelState,{
+//         from: acc,
+//         gas: 1000000,
+// },(error,result)=>{
+// })
+// }
 
 function getModels(){
 
@@ -380,10 +398,13 @@ function getModels(){
 
 }
 
+
+
+
 function getDangerDevices(){
 	var response=[]
 	var adder;
-	document.getElementById("DangerModels").innerHTML = "";
+	document.getElementById("Models").innerHTML = "";
 	group_cnt.getAllowedMembers.call((error, res)=>{
 		if(!error){
 			console.log("1" + res)
@@ -392,13 +413,46 @@ function getDangerDevices(){
 				group_cnt.isSecureAdder.call(res[i],(error2, res2)=>{
 					console.log("2:" + res2)
 					response.push(res[i]+": "+res2);
+
+					
+					if(res2==0){
+						sod="安全"
+					}else{
+						sod="危険"
+					}
+
 					//$('#DangerModels').text(res[i]+": "+res2)
-					document.getElementById("DangerModels").innerHTML += adder+": "+res2
+					document.getElementById("Models").innerHTML += adder+": "+sod
 				})
 			}
 		}
 	})
 }
+// function getDangerDevices(){
+// 	var response=[]
+
+//     group_cnt
+//     .getDangerDevices.call(
+//     (error,res)=>{
+//     if(!error){
+// 		for(i=0;i<res.length;i++){
+// 			if(res[i]==0x0000000000000000000000000000000000000000000000000000000000000000){
+// 				console.log('wao')
+// 				continue;
+// 			}else{
+// 				console.log('uu')
+// 				response.push(res[i])
+// 			}
+// 		}
+// 		if(response.length<1){
+// 			$('#NoDanger').text("No Dangerous Device")
+// 		}else{
+// 		$('#DangerModels').text(response)
+// 		}
+//     }
+// 	}
+// 	)
+// }
 
 
 }else{

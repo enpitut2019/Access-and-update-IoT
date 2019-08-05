@@ -11,6 +11,10 @@
     <title>Group Index</title>
 </head>
 <body>
+
+    <a href="admin.html">admin 画面</a>
+    <a href="phone.html">phone 画面</a>
+    <a href="camera.html">camera 画面</a>
     <div class="whole">
     <div id="YoutAccount"></div>
     <p>グループを作成する<p>
@@ -22,28 +26,22 @@
         <input  id="add" type="string" placeholder="Ethereum Account Address"  />
         <input type="button" value="add" onclick="addMember();" />
         </form>
-
-    <br>
-    <p>グループに参加するリクエストを送る</p>
-    <form name="form2" id="id_form2" action="">
-        <input  id="join" type="string" placeholder="adminAddress"  />
-        <input type="button" value="req" onclick="requestJoin();" />
-    </form>
-    <br>
-    <p>通信が許可されているデバイス</p>
+        
+        <br>
+    <p>通信が許可されているデバイス一覧</p>
     <input type="button" value="get" onclick="getAuthenticatedMembers();" />
     <div id="authenticated"></div>
     <br>
 
-  
-    <p>モデルの安全情報を変更</p>
-    <!-- //(ここはadminではない→ベンダーにやらせる?) -->
+<!--   
+    <p>モデルの安全情報を変更</p> ここはベンダーの処理
     <form name="form3" id="id_form3" action="">
         <input  id="cmodel" type="string" placeholder="modelhash"  />
         <input  id="cstate" type="string" placeholder="0 or 1"  />
         <input type="button" value="change" onclick="changeInfo();" />
     </form>
-    <br>
+    <br> -->
+
     <br>
     <p>管理下のデバイスのモデル情報</p>
     <!-- ここはhashedではなくstringの方がよい? -->
@@ -51,11 +49,11 @@
     <div id="hashedmodels"></div>
 
     <br>
-    <p>危険なモデル一覧</p>
+    <p>モデルの安全危険</p>
     <!-- ここもstringがいいけど,,string配列できない、難しい -->
-    <input type="button" value="dangerDevice" onclick="getDangerDevices();" />
+    <input type="button" value="safeOrdanger" onclick="getDangerDevices();" />
     <p class="bg-info" id="NoDanger"></p>
-    <div id="DangerModels"></div>
+    <div id="Models"></div>
 
 
     
