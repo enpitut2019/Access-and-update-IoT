@@ -22,59 +22,26 @@
             if (typeof web3 !== 'undefined') {
                 web3 = new Web3(web3.currentProvider);
                 ethereum.enable();
-                const address = '0x25e524ae3b23508a7cdd7fd51125337b32bf2f97';
+                const address = '0x6a0a42e0f514ebe379af86cf5b239fdf0bc487e1';
                 const abi =[
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "_model",
-				"type": "string"
+				"name": "",
+				"type": "bytes32"
 			}
 		],
-		"name": "badModel",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
+		"name": "ver",
+		"outputs": [
 			{
-				"name": "_model",
-				"type": "string"
+				"name": "",
+				"type": "uint256"
 			}
 		],
-		"name": "safeModel",
-		"outputs": [],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "phash",
-				"type": "string"
-			},
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "upNewProgram",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	},
 	{
 		"constant": true,
@@ -93,66 +60,6 @@
 		],
 		"payable": false,
 		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_models",
-				"type": "bytes32[]"
-			},
-			{
-				"name": "_states",
-				"type": "uint8[]"
-			}
-		],
-		"name": "getModelStates",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "getState",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getUpInfo",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -198,6 +105,135 @@
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "badModel",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_hash",
+				"type": "string"
+			},
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "verify",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_models",
+				"type": "bytes32[]"
+			},
+			{
+				"name": "_states",
+				"type": "uint8[]"
+			}
+		],
+		"name": "getModelStates",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getUpInfo",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "safeModel",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "phash",
+				"type": "string"
+			},
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "upNewProgram",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getState",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -224,7 +260,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "release_ver",
+		"name": "up_model",
 		"outputs": [
 			{
 				"name": "",
@@ -236,49 +272,13 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"name": "ver",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"inputs": [],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_hash",
-				"type": "string"
-			},
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "verify",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	}
 ]
-const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
+const address2 = '0x6e1211967908d57d9abe3770812fa8d21f407e3e';
 			const abi2 = [
 	{
 		"constant": false,
@@ -385,41 +385,8 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 	}
 ]
 
-				const address_admin = "0xb42fffdb42d6398e0fd8baa33c6eb0d5c4565c32";
+				const address_admin = "0xa4b536083a67566d3e13f0cff541d1f6e863d7ac";
 				const abi_admin = [
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_adder",
-				"type": "address"
-			}
-		],
-		"name": "isSecureAdder",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getModels",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
 	{
 		"constant": false,
 		"inputs": [
@@ -428,43 +395,19 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 				"type": "address"
 			}
 		],
-		"name": "removeMember",
+		"name": "addMember",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "getModeltoFollowers",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
+		"constant": false,
 		"inputs": [],
-		"name": "getGid",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"name": "createGroup",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -487,132 +430,6 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAllowedMembers",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "createGroup",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_var",
-				"type": "string"
-			}
-		],
-		"name": "getHash",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "hashed",
-				"type": "bytes32[]"
-			},
-			{
-				"name": "goodbad",
-				"type": "uint8[]"
-			}
-		],
-		"name": "updateinfo",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getDangerDevices",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "addrTomodel",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "ven",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "getIsSecure",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -620,7 +437,7 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 				"type": "address"
 			}
 		],
-		"name": "addMember",
+		"name": "removeMember",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -645,14 +462,57 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "hashed",
+				"type": "bytes32[]"
+			},
+			{
+				"name": "goodbad",
+				"type": "uint8[]"
+			}
+		],
+		"name": "updateinfo",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_vender",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
-				"name": "_model",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "addrTomodel",
+		"outputs": [
+			{
+				"name": "",
 				"type": "string"
 			}
 		],
-		"name": "searchModel",
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllowedMembers",
 		"outputs": [
 			{
 				"name": "",
@@ -678,15 +538,155 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "getDangerDevices",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getGid",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
-				"name": "_vender",
+				"name": "_var",
+				"type": "string"
+			}
+		],
+		"name": "getHash",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getIsSecure",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getModels",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getModeltoFollowers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_adder",
+				"type": "address"
+			}
+		],
+		"name": "isSecureAdder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "searchModel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "ven",
+		"outputs": [
+			{
+				"name": "",
 				"type": "address"
 			}
 		],
 		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
 				// Storeのインスタンス
@@ -737,22 +737,28 @@ const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
                 	});
                     mycontract.getUpInfo.call({from: account, gas:3000000},(error, result) =>{
                         if(id != result[0] && ver != result[1]){
-                            id = result[0];
+							id = result[0];
+							ver = result[1]
 							$('#id').text(result)
 							admin.getModeltoFollowers(result[0], {from: account, gas:3000000},(error2, result2) =>{
-								if(result2[0] == )
+								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
+								else{
+									var ghash, bhash
+									$('#program').text(result2)
+									/*for(var i = 0; i < result2.length; i++){
+                            			mystrage.getProgram.call(result2[i],ver-1,{from: account, gas:3000000},(error2, result2) =>{
+                                			program = result2;
+				    	        			$('#program').text(result2)
+											ghash = generateHash(program)
+											$('#ghash').text(ghash)
+											mycontract.verify.call(ghash,result2[i], {from: account, gas:3000000}, (error3, result3) => {
+												$('#eq').text(result3)
+											})
+                           				});
+									}*/
+								}
 							})
 							
-							var ghash, bhash
-                            mystrage.getProgram.call('A',id-1,{from: account, gas:3000000},(error2, result2) =>{
-                                program = result2;
-				            	$('#program').text(result2)
-								ghash = generateHash(program)
-								$('#ghash').text(ghash)
-								mycontract.verify.call(ghash,'A', {from: account, gas:3000000}, (error3, result3) => {
-									$('#eq').text(result3)
-								})
-                            });
                         }
                 	});
 				}

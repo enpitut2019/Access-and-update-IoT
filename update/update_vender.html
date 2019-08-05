@@ -21,86 +21,26 @@
                 web3 = new Web3(web3.currentProvider);
                 ethereum.enable();
                 
-                const address = '0x4eec6e7e7109b3f0911fa009e4dbb58642702308';
+                const address = '0x6a0a42e0f514ebe379af86cf5b239fdf0bc487e1';
                 const abi =[
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "_model",
-				"type": "string"
+				"name": "",
+				"type": "bytes32"
 			}
 		],
-		"name": "badModel",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_admin",
-				"type": "address"
-			},
-			{
-				"name": "_models",
-				"type": "bytes32[]"
-			},
-			{
-				"name": "_states",
-				"type": "uint8[]"
-			}
-		],
-		"name": "checkStates",
+		"name": "ver",
 		"outputs": [
 			{
 				"name": "",
-				"type": "uint8[]"
+				"type": "uint256"
 			}
 		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "safeModel",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "phash",
-				"type": "string"
-			},
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "upNewProgram",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	},
 	{
 		"constant": true,
@@ -119,48 +59,6 @@
 		],
 		"payable": false,
 		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "getModel",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_models",
-				"type": "bytes32[]"
-			},
-			{
-				"name": "_states",
-				"type": "uint8[]"
-			}
-		],
-		"name": "getModelState",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -206,41 +104,17 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
-				"name": "",
-				"type": "bytes32"
+				"name": "_model",
+				"type": "string"
 			}
 		],
-		"name": "model_state",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
+		"name": "badModel",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"name": "ver",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -265,9 +139,145 @@
 		"payable": false,
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_models",
+				"type": "bytes32[]"
+			},
+			{
+				"name": "_states",
+				"type": "uint8[]"
+			}
+		],
+		"name": "getModelStates",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getUpInfo",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "safeModel",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "phash",
+				"type": "string"
+			},
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "upNewProgram",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getState",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "model_state",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "up_model",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	}
 ]
-            const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
+            const address2 = '0x6e1211967908d57d9abe3770812fa8d21f407e3e';
 			const abi2 = [
 	{
 		"constant": false,
@@ -419,7 +429,7 @@
 				//モデルの良し悪しを表示
 				function displayModel(){
 					var inputs = Test_form.check_model.value;
-					mycontract.getModel.call(inputs,{from: account, gas:3000000},(error2, result2) =>{
+					mycontract.getState.call(inputs,{from: account, gas:3000000},(error2, result2) =>{
 						$('#mstate').text(inputs + " " + result2);
 					});
 				}
