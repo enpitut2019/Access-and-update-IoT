@@ -9,6 +9,10 @@
             <input type="text" placeholder="string_model, string_file" name="up_input"> &nbsp;&nbsp;  <input type="button" value="アップロード" onclick="upContent()"><br>
             保存したファイル: &nbsp; <div id="file"></div>
             保存したハッシュ値: &nbsp; <div id="fhash"></div>
+            <input type="text" placeholder="string_model" name="up_bad"> &nbsp;&nbsp;  <input type="button" value="脆弱性あるモデルのアップ" onclick="upBad()"><br>
+			<input type="text" placeholder="string_model" name="up_good"> &nbsp;&nbsp;  <input type="button" value="脆弱性修正したモデルのアップ" onclick="upGood()"><br>
+			<input type="text" placeholder="string_model" name="check_model"> &nbsp;&nbsp;  <input type="button" value="モデルの安全性を表示" onclick="displayModel()"><br>
+			<div id ="model">モデルの状態: &nbsp; <div id="mstate"></div></div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
         <script type="text/javascript" src="./jsSHA-master/src/sha256.js"></script>
@@ -17,9 +21,63 @@
                 web3 = new Web3(web3.currentProvider);
                 ethereum.enable();
                 
-                const address = '0x8a3ef0cd8ca26f048fdb36ccdc156bcdd7b1db87';
-
+                const address = '0x4eec6e7e7109b3f0911fa009e4dbb58642702308';
                 const abi =[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "badModel",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_admin",
+				"type": "address"
+			},
+			{
+				"name": "_models",
+				"type": "bytes32[]"
+			},
+			{
+				"name": "_states",
+				"type": "uint8[]"
+			}
+		],
+		"name": "checkStates",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "safeModel",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"constant": false,
 		"inputs": [
@@ -71,6 +129,48 @@
 				"type": "string"
 			}
 		],
+		"name": "getModel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_models",
+				"type": "bytes32[]"
+			},
+			{
+				"name": "_states",
+				"type": "uint8[]"
+			}
+		],
+		"name": "getModelState",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
 		"name": "getVer",
 		"outputs": [
 			{
@@ -110,7 +210,26 @@
 		"inputs": [
 			{
 				"name": "",
-				"type": "string"
+				"type": "bytes32"
+			}
+		],
+		"name": "model_state",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "bytes32"
 			}
 		],
 		"name": "ver",
@@ -148,7 +267,7 @@
 		"type": "function"
 	}
 ]
-            const address2 = '0x30c21d096c03052366f12a897c48375b8661c243';
+            const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 			const abi2 = [
 	{
 		"constant": false,
@@ -255,11 +374,9 @@
 	}
 ]
 				const mystrage = web3.eth.contract(abi2).at(address2);
-
 				// コンストラクトのインスタンスを生成
                 const mycontract = web3.eth.contract(abi).at(address);
 				var account, id, program;
-
 				// ハッシュ生成
 				const HASH_KEY = 'HASH_KEY';
 				function generateHash (text) {
@@ -267,7 +384,6 @@
  				   sha256.update(text + HASH_KEY);
  				   return sha256.getHash('HEX');
 				}
-
 				// アカウントおよびネットワークに関する情報を表示
 				web3.version.getNetwork((error, result) => {
                     $('#networkid').text('Network ID: '+result)
@@ -277,7 +393,6 @@
 					account = result[0]
                     $('#accounts').text('Your accounts: '+account)
                 })
-
 				// コンテンツのアップロード(text)
 				function upContent(){
 					var inputs = Test_form.up_input.value.split(',');
@@ -289,6 +404,27 @@
                 		});
                 	});
                 }
+
+                //　悪いモデルの更新
+				function upBad(){
+					var inputs = Test_form.up_bad.value;
+					mycontract.badModel.sendTransaction(inputs,{from: account, gas:3000000},(error2, result2) =>{
+					});
+				}
+				//　良いモデルへと更新
+				function upGood(){
+					var inputs = Test_form.up_good.value;
+					mycontract.safeModel.sendTransaction(inputs,{from: account, gas:3000000},(error2, result2) =>{
+					});
+				}
+
+				//モデルの良し悪しを表示
+				function displayModel(){
+					var inputs = Test_form.check_model.value;
+					mycontract.getModel.call(inputs,{from: account, gas:3000000},(error2, result2) =>{
+						$('#mstate').text(inputs + " " + result2);
+					});
+				}
 
 				// ページの更新
 				/*function reloadFunctions(){
@@ -311,12 +447,10 @@
                         }
                 	});
 				}
-
 				setInterval('reloadFunctions()',100);*/
             } else {
                 document.write('Install <a href="https://metamask.io">METAMASK</a>')
             }
-
 			
 		</script>
 		</form>
