@@ -1,3 +1,4 @@
+<!-- モデル名 ”A" のバージョン変化を監視するhtml -->
 <!DOCTYPE html>
 <html>
     <head><meta http-equiv="content-type" charset="utf-8"></head>
@@ -8,33 +9,20 @@
         <div>現在のバージョン:&nbsp;<div id="id"></div> <br>
         プログラム↓<br>
 		<div id="program"></div>
-		<br>
-		ブロックチェーンに保管されたハッシュ値:&nbsp; <div id="bhash"></div><br>
+        <br>
+        <!-- ブロックチェーンに保管されたハッシュ値をとって比較ではなく、ハッシュ値を送って等しいか比べるため、
+        とって来る必要はないと考え、以下のコードはコメントアウトしている-->
+		<!--ブロックチェーンに保管されたハッシュ値:&nbsp; <div id="bhash"></div><br>-->
 		取得したファイルのハッシュ値:&nbsp; <div id="ghash"></div><br>
 		等しいかどうか: &nbsp; <div id="eq"></div>
         </div>
 		<script type="text/javascript" src="./jsSHA-master/src/sha256.js"></script>
 		<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
         <script>
-			function readTextFile(file){
-				var rawile = new XMLHttpRequest();
-				rawFile.open("GET", file, false);
-				rawFile.onreadystatechange = function(){
-					if(rawile.readyState == 4){
-						if(rawFile.status == 200 || rawFile.status == 0){
-							var allText = rawFile.responseText;
-							return allText;
-						}
-					}
-				}
-				rawile,sedn(null)
-			}
             if (typeof web3 !== 'undefined') {
                 web3 = new Web3(web3.currentProvider);
                 ethereum.enable();
-
-                const address = '0x8a3ef0cd8ca26f048fdb36ccdc156bcdd7b1db87';
-
+                const address = '0x4eec6e7e7109b3f0911fa009e4dbb58642702308';
                 const abi =[
 	{
 		"constant": false,
@@ -164,7 +152,7 @@
 		"type": "function"
 	}
 ]
-            const address2 = '0x30c21d096c03052366f12a897c48375b8661c243';
+const address2 = '0x05fa2df3c059aabbd8bb925d5bd917edd55fcf10';
 			const abi2 = [
 	{
 		"constant": false,
@@ -271,11 +259,9 @@
 	}
 ]
 				const mystrage = web3.eth.contract(abi2).at(address2);
-
 				// コンストラクトのインスタンスを生成
                 const mycontract = web3.eth.contract(abi).at(address);
 				var account, id, program;
-
 				// ハッシュ生成
 				const HASH_KEY = 'HASH_KEY';
 				function generateHash (text) {
@@ -283,7 +269,6 @@
  				   sha256.update(text + HASH_KEY);
  				   return sha256.getHash('HEX');
 				}
-
 				// アカウントおよびネットワークに関する情報を表示
 				web3.version.getNetwork((error, result) => {
                     $('#networkid').text('Network ID: '+result)
@@ -293,17 +278,14 @@
 					account = result[0]
                     $('#accounts').text('Your accounts: '+account)
                 })
-
                 mycontract.getVer.call('A',{from: account, gas:3000000},(error, result) =>{
                     id = result;
 					$('#id').text(result)
                 });
-
                 mystrage.getProgram.call('A',id-1,{from: account, gas:3000000},(error, result) =>{
                     program = result;
 					$('#program').text(result)
                 });
-
 				// ページの更新
 				function reloadFunctions(){
 					// アカウント・お金の更新
@@ -321,7 +303,7 @@
 							var ghash, bhash
                             mystrage.getProgram.call('A',id-1,{from: account, gas:3000000},(error2, result2) =>{
                                 program = result2;
-				            	$('#program').text(result2+" GET")
+				            	$('#program').text(result2)
 								ghash = generateHash(program)
 								$('#ghash').text(ghash)
 								mycontract.verify.call(ghash,'A', {from: account, gas:3000000}, (error3, result3) => {
@@ -331,12 +313,10 @@
                         }
                 	});
 				}
-
 				setInterval('reloadFunctions()',100);
             } else {
                 document.write('Install <a href="https://metamask.io">METAMASK</a>')
             }
-
 			
 		</script>
 		</form>
