@@ -18,7 +18,7 @@
 
 ・smart phone
 
-それぞれの役割
+それぞれの役割は
 
 vender
 
