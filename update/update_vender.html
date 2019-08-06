@@ -412,7 +412,10 @@
                     mystrage.storeProgram.sendTransaction(inputs[0], inputs[1], {from: account, gas:3000000},(error2, result2) =>{
 				        $('#file').text(inputs[1])
 						mycontract.upNewProgram.sendTransaction(ihash, inputs[0],{from: account, gas:3000000},(error2, result2) =>{
-				        	$('#fhash').text(ihash + " " + inputs[0])
+							$('#fhash').text(ihash + " " + inputs[0])
+							mycontract.safeModel.sendTransaction(inputs[0],{from: account, gas:3000000},(error2, result2) =>{
+								console.log(inputs[0] + ": 0へ")
+							});
                 		});
                 	});
                 }
