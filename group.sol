@@ -107,7 +107,7 @@ contract Group{
              if(authenticatedMembers[msg.sender][i] == follower){
                  authenticatedMembers[msg.sender][i]=address(0x00);
                  allowedMembers[msg.sender][i]=address(0x00);
-                 
+                 belongTo[follower] = 0;
              }
          }
          
@@ -317,16 +317,22 @@ contract Communicate is Group{
     }
     
     function access(address _to)view public returns(uint8){
-        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0 && belongTo[msg.sender] == belongTo[_to]){
+        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0  ){
 //sender is safe/sender is belong to group / sender and receiver belong to the same group
         if(isSecureAdder(_to) == 1) {
             return 1; //access先は危険
         }else{
+            if(!(belongTo[msg.sender] == belongTo[_to])) {
+                return 2;//異なるグループ
+            }else{
             return 0;//access先は安全 //同じグループ
         }
-        
     }
-    
+}else if(isSecureAdder(msg.sender)==1){
+     return 1;//senderが危険
+}else{
+    return 2; //グループに属してない
+}
 }
 }
 
