@@ -22,7 +22,7 @@
                 ethereum.enable();
                 
 
-                const address = '0x65e6dfb6ef495839ee06342d2c7a2d8a990ee729';
+                const address = '0x9ceee39ba5759c3c3bee823f22c1eb8f6bc5c57a';
                 const abi =[
 	{
 		"constant": true,
@@ -276,10 +276,70 @@
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "phash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ver",
+				"type": "uint256"
+			}
+		],
+		"name": "UpNewProgram",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			}
+		],
+		"name": "BadModel",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			}
+		],
+		"name": "SafeModel",
+		"type": "event"
 	}
 ]
-
-            const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
+            const address2 = '0x60a65327440974bbec81b051e2c194810dd2cb8c';
 			const abi2 = [
 	{
 		"constant": false,

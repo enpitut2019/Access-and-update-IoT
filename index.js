@@ -6,45 +6,10 @@ if (typeof web3 !== 'undefined') {
     $('#YoutAccount').text('Your Account is '+acc);
 })
 
-
-const group_contract = "0x1c484187e8783e39fd17ebbb7c4d07d239a101d4"; 
-const communication_contract = "0xe94dc54dccb9985025640186e719f205fe9fb2d3"; 
+const communication_contract = "0xc7315cbf4898f88b805ec0da107bd936bd3a4c53"; 
 //コントラクトを更新するたびに変更必要
   
 const communication_abi=[
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_adder",
-				"type": "address"
-			}
-		],
-		"name": "isSecureAdder",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getModels",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
 	{
 		"constant": false,
 		"inputs": [
@@ -53,43 +18,19 @@ const communication_abi=[
 				"type": "address"
 			}
 		],
-		"name": "removeMember",
+		"name": "addMember",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [],
-		"name": "getGid",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"name": "createGroup",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_from",
-				"type": "address"
-			}
-		],
-		"name": "getData",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -112,151 +53,6 @@ const communication_abi=[
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAllowedMembers",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "createGroup",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_var",
-				"type": "string"
-			}
-		],
-		"name": "getHash",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_to",
-				"type": "address"
-			}
-		],
-		"name": "access",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "hashed",
-				"type": "bytes32[]"
-			},
-			{
-				"name": "goodbad",
-				"type": "uint8[]"
-			}
-		],
-		"name": "updateinfo",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getDangerDevices",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "addrTomodel",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "ven",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "getIsSecure",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -264,7 +60,7 @@ const communication_abi=[
 				"type": "address"
 			}
 		],
-		"name": "addMember",
+		"name": "removeMember",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -289,39 +85,6 @@ const communication_abi=[
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "searchModel",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAuthenticatedMembers",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -340,30 +103,21 @@ const communication_abi=[
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
-				"name": "",
-				"type": "address"
+				"name": "hashed",
+				"type": "bytes32[]"
 			},
 			{
-				"name": "",
-				"type": "address"
-			},
-			{
-				"name": "",
-				"type": "uint256"
+				"name": "goodbad",
+				"type": "uint8[]"
 			}
 		],
-		"name": "strage",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
+		"name": "updateinfo",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -437,13 +191,322 @@ const communication_abi=[
 		],
 		"name": "GetData",
 		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			}
+		],
+		"name": "CreateGroup",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "admin",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "follower",
+				"type": "address"
+			}
+		],
+		"name": "AddMember",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "follower",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			}
+		],
+		"name": "RequestJoin",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "adomin",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "follower",
+				"type": "address"
+			}
+		],
+		"name": "RemoveMember",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			}
+		],
+		"name": "access",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "addrTomodel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllowedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAuthenticatedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getDangerDevices",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			}
+		],
+		"name": "getData",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getGid",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_var",
+				"type": "string"
+			}
+		],
+		"name": "getHash",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getIsSecure",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getModels",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_adder",
+				"type": "address"
+			}
+		],
+		"name": "isSecureAdder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "searchModel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "strage",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "ven",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
 
-
-//commu_cnt=web3.eth.contract(group_abi).at(group_contract)
 commu_cnt=web3.eth.contract(communication_abi).at(communication_contract)
-
 
 function createGroup(){
     console.log("wao")
