@@ -1,0 +1,64 @@
+
+
+    
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" src="index.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>Group Index</title>
+</head>
+<body>
+
+    <a href="admin.html">admin 画面</a>
+    <a href="phone.html">phone 画面</a>
+    <a href="camera.html">camera 画面</a>
+    <div class="whole">
+    <div id="YoutAccount"></div>
+    <p>グループを作成する<p>
+
+    <input type="button" value="Create" onclick="createGroup();" />
+
+    <p>グループに機器を追加する</p>
+    <form name="form1" id="id_form1" action="">
+        <input  id="add" type="string" placeholder="Ethereum Account Address"  />
+        <input type="button" value="add" onclick="addMember();" />
+        </form>
+        <br>
+        
+        <p>グループから機器を削除する</p>
+        <form name="form1" id="delete" action="">
+            <input  id="del" type="string" placeholder="Ethereum Account Address"  />
+            <input type="button" value="remove" onclick="removeMember();" />
+            </form>
+            
+        <br>
+    <p>通信が許可されているデバイス一覧</p>
+    <input type="button" value="get" onclick="getAuthenticatedMembers();" />
+    <div id="authenticated"></div>
+    <br>
+
+    <br>
+    <p>管理下のデバイスのモデル情報</p>
+    <!-- ここはhashedではなくstringの方がよい? -->
+    <input type="button" value="Model" onclick="getModels();" />
+    <div id="hashedmodels"></div>
+
+    <p>モデルチェック</p>
+    <form name="form3" id="id_form3" action="">
+        <input  id="che" type="string" placeholder="Ethereum Account Address"  />
+        <input type="button" value="check" onclick="getIsSecure();" />
+        </form>
+        <div id="isDanger"></div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+
+</body>
+
+</html>
