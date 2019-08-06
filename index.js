@@ -6,44 +6,11 @@ if (typeof web3 !== 'undefined') {
     $('#YoutAccount').text('Your Account is '+acc);
 })
 
-const group_contract = "0xedc7cda832a934664fc1489e813fa5bdf88f3f69"; 
-const communication_contract = "0x1c9a9cfbeb386ef460eaa4bc4ca7e23527c96161"; 
+const group_contract = "0x1c484187e8783e39fd17ebbb7c4d07d239a101d4"; 
+const communication_contract = "0x0dbd3828ad98292ec73dade197d0b9b776076cd0"; 
 //コントラクトを更新するたびに変更必要
   
 const communication_abi=[
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_adder",
-				"type": "address"
-			}
-		],
-		"name": "isSecureAdder",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getModels",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
 	{
 		"constant": false,
 		"inputs": [
@@ -52,43 +19,19 @@ const communication_abi=[
 				"type": "address"
 			}
 		],
-		"name": "removeMember",
+		"name": "addMember",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [],
-		"name": "getGid",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"name": "createGroup",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_from",
-				"type": "address"
-			}
-		],
-		"name": "getData",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -111,151 +54,6 @@ const communication_abi=[
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAllowedMembers",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "createGroup",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_var",
-				"type": "string"
-			}
-		],
-		"name": "getHash",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_to",
-				"type": "address"
-			}
-		],
-		"name": "access",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "hashed",
-				"type": "bytes32[]"
-			},
-			{
-				"name": "goodbad",
-				"type": "uint8[]"
-			}
-		],
-		"name": "updateinfo",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getDangerDevices",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "addrTomodel",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "ven",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "getIsSecure",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -263,7 +61,7 @@ const communication_abi=[
 				"type": "address"
 			}
 		],
-		"name": "addMember",
+		"name": "removeMember",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -288,39 +86,6 @@ const communication_abi=[
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "searchModel",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAuthenticatedMembers",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -339,30 +104,21 @@ const communication_abi=[
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
-				"name": "",
-				"type": "address"
+				"name": "hashed",
+				"type": "bytes32[]"
 			},
 			{
-				"name": "",
-				"type": "address"
-			},
-			{
-				"name": "",
-				"type": "uint256"
+				"name": "goodbad",
+				"type": "uint8[]"
 			}
 		],
-		"name": "strage",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
+		"name": "updateinfo",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -436,6 +192,250 @@ const communication_abi=[
 		],
 		"name": "GetData",
 		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			}
+		],
+		"name": "access",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "addrTomodel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllowedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAuthenticatedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getDangerDevices",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			}
+		],
+		"name": "getData",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getGid",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_var",
+				"type": "string"
+			}
+		],
+		"name": "getHash",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getIsSecure",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getModels",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_adder",
+				"type": "address"
+			}
+		],
+		"name": "isSecureAdder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "searchModel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "strage",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "ven",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
 
@@ -733,7 +733,7 @@ commu_cnt=web3.eth.contract(communication_abi).at(communication_contract)
 
 function createGroup(){
     console.log("wao")
-    group_cnt
+    commu_cnt
     .createGroup((error,result)=>{
 	}
 )
@@ -743,8 +743,20 @@ function addMember(){
 	console.log("uo")
 
     mem=document.forms.id_form1.add.value;
-    group_cnt
+    commu_cnt
     .addMember(mem,{
+        from: acc,
+        gas: 1000000,
+},(error,result)=>{
+})
+}
+
+function removeMember(){
+	console.log("uo")
+
+    memb=document.forms.delete.del.value;
+    commu_cnt
+    .removeMember(memb,{
         from: acc,
         gas: 1000000,
 },(error,result)=>{
@@ -755,7 +767,7 @@ function requestJoin(){
 	GID=document.forms.id_form2.join.value.split(",");
     console.log("uw")
 
-    group_cnt
+    commu_cnt
     .requestJoin(GID[0],GID[1],{
         from: acc,
         gas: 1000000,
@@ -764,13 +776,16 @@ function requestJoin(){
 
 function getAuthenticatedMembers(){
 	document.getElementById("authenticated").innerHTML = "";
-    group_cnt
+    commu_cnt
     .getAuthenticatedMembers.call(
     (error,res)=>{
     if(!error){
 		console.log("wawa")
 		for(a=0;a<res.length;a++){
 			models=res[a]
+			if(models=="0x0000000000000000000000000000000000000000"){
+				continue;
+			}
 			console.log("wawa")
 			document.getElementById("authenticated").innerHTML +="<br>"+ models;
 			}
@@ -803,13 +818,17 @@ function getAuthenticatedMembers(){
 
 function getModels(){
 	document.getElementById("hashedmodels").innerHTML = "";
-    group_cnt
+    commu_cnt
     .getModels.call(
     (error,res)=>{
     if(!error){
 		for(a=0;a<res.length;a++){
 		models=res[a]
 		console.log("wawa")
+		if(models=="0x0000000000000000000000000000000000000000000000000000000000000000"){
+			continue;
+		}
+	
 		document.getElementById("hashedmodels").innerHTML +="<br>"+ models;
 		}
     }
@@ -828,7 +847,7 @@ function getModels(){
 function getIsSecure(){
 	addr=document.forms.id_form3.che.value;
 
-    group_cnt
+    commu_cnt
     .isSecureAdder(addr,
     (error,res)=>{
 		if(!error){
