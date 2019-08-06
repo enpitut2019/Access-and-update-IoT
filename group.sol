@@ -1,4 +1,7 @@
+
+    
 pragma solidity ^0.5.1;
+
 
 contract Group{
     address[] admins;
@@ -12,12 +15,15 @@ contract Group{
     mapping(address=>bool) isFollower;
 
     mapping(bytes32 => address[])modelToFollowers;
+    mapping(address => bytes32)followerToModel;//removeで追加
     mapping(bytes32 => uint8) isSecure;//初期値0安全,モデルのハッシュ値で,そのモデル化が安全かチェック
     mapping(address => bytes32[]) hasModels;
   
     bytes32 hashedModel;
     bytes32[] DangerDevices; //function updateで使う,modelに対応するデバイス群
     mapping(address => string) public addrTomodel;
+    uint256 count=0;//removeMemberで使う
+
     
     Vender public ven;
 
@@ -63,18 +69,31 @@ contract Group{
                 belongTo[msg.sender] = adminToGid[admin];
                 isFollower[msg.sender]=true;
                 hashedModel=getHash(ownmodel);
-
-
-                modelToFollowers[hashedModel].push(msg.sender); //model名とデバイスアドレスのマッピング//無くてもいい?
-                hasModels[admin].push(hashedModel);//adminの担当カ所のfollowerのモデル
-                isSecure[hashedModel]=0;
                 addrTomodel[msg.sender] = ownmodel; //　アドレスに対してモデル名をマッピング
+                followerToModel[msg.sender]=hashedModel;
+                modelToFollowers[hashedModel].push(msg.sender); //model名とデバイスアドレスのマッピング//無くてもいい?
+                isSecure[hashedModel]=0;
+                
+                if(hasModels[admin].length>0){
+                for(j=0;j<hasModels[admin].length;j++){
+                     if(hasModels[admin][j] == hashedModel){//既に同じmodelが存在するか
+                     }else{
+                         hasModels[admin].push(hashedModel);
+                         break;
+                     }
+                }
+                }else{
+                    hasModels[admin].push(hashedModel);
+                }
+                
+           
                
                 //既に所有していたら追加しない操作も後で
             }
         }
     }
-
+    
+    
        function getHash(string memory _var) public pure returns (bytes32){
         byte b = 0x00;
         uint8 a = 0;
@@ -82,15 +101,33 @@ contract Group{
     }
 
   
-    
     function removeMember(address follower) public onlyOwner(){
+        isFollower[follower]=false;
          for(i = 0; i<authenticatedMembers[msg.sender].length; i++){
              if(authenticatedMembers[msg.sender][i] == follower){
                  authenticatedMembers[msg.sender][i]=address(0x00);
                  allowedMembers[msg.sender][i]=address(0x00);
+                 
              }
          }
-    }
+         
+        for(j = 0; j<authenticatedMembers[msg.sender].length;j++){
+                 if(followerToModel[authenticatedMembers[msg.sender][j]] == followerToModel[follower]){//同一modelが1つだけの場合
+                     count+=1;
+                 }
+        }
+          if(count<1){//被っているモデルの機器(address)がなかったら
+              for(k = 0;k<hasModels[msg.sender].length;k++){//hasModelsの何番目のモデルかわからないのでモデルか分からないので舐める
+                  if(hasModels[msg.sender][k]==followerToModel[follower]){
+                   hasModels[msg.sender][k]=bytes32(0x00);
+                  }
+              }
+             }
+              count=0;
+         }
+        
+    
+    
 
     function getAuthenticatedMembers()public view onlyOwner() returns(address[] memory){
         return authenticatedMembers[msg.sender];
@@ -108,7 +145,7 @@ contract Group{
         return allowedMembers[msg.sender];
     }
     
-    function getModels() public view returns( bytes32[] memory ){//jsからinform通知が来たらmodel情報を返す
+    function getModels() public view returns( bytes32[] memory ){
         return hasModels[msg.sender];
     }
     
@@ -137,7 +174,6 @@ contract Group{
              }
          }
         }
-        
     }
     
     // 管理しているアドレスの状態を入手(モデルがセーフかアウトか)
@@ -160,47 +196,28 @@ contract Group{
     }
 }
 
-contract Communicate is Group{
-    mapping(address=>mapping(address=>string[])) public strage;
-    
-    event SendData(address _from, address _to);
-    event StoreData(address _dataowner, address _from, string _data);
-    event GetData(address _sender, address _from, string _data);
-    
-    constructor(address _vender) Group(_vender) public{}
-    
-    function sendData(address _to,  string memory _data) public{
-        emit SendData(_to,msg.sender);
-        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0 && belongTo[msg.sender] == belongTo[_to]){
-            if(isSecureAdder(_to) == 1) revert("アクセス先が危険です");
-            strage[_to][msg.sender].push(_data);
-            emit StoreData(_to, msg.sender, _data);
-        }else{
-            revert("不正なアクセスです");
-        }
+/*
+    // Venderへモデルの状態をリクエスト
+    function requestState(address _vender, uint8[] memory _states) public{
+        Vender ve = Vender(_vender);
+        ve.checkStates(msg.sender, hasModels[msg.sender], _states);
     }
     
-    function getData(address _from) view public returns(string memory){
-        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0 && belongTo[msg.sender] == belongTo[_from]){
-            if(isSecureAdder(_from) == 1) revert("アクセス先が危険です");
-            return strage[msg.sender][_from][strage[msg.sender][_from].length-1];
-        }else{
-            revert("不正なアクセスです");
+    // モデルの状態を変更
+    function chengeState(uint8[] memory _states, bytes32[] memory _models) public{
+        for(i = 0; i < _models.length; i++){
+            isSecure[_models[i]] = _states[i];
         }
-    }
-}
-
-
-pragma solidity ^0.5.1;
+    }*/
 
 // 開発者側の処理
 contract Vender {
     mapping(bytes32=>uint256) public ver; // モデルに対応したバージョン番号
     mapping(bytes32=>mapping(uint256=>string)) verfier; // モデルのバージョンに対応したファームウェアのハッシュ値(検証用)
     mapping(bytes32=>uint8) public model_state; // 0 safe, 1 脆弱性含む
-    string[] public up_model; // 公開したアップデートファイルに対応したモデル名
     
-    constructor() public{}
+    constructor() public{
+    }
     
     // ハッシュ関数(文字列 -> ハッシュ値)　文字列の比較に使用
     function getHash(string memory _var) public pure returns (bytes32){
@@ -214,7 +231,6 @@ contract Vender {
         bytes32 model_hash = getHash(_model);
         ver[model_hash]+=1; //　バーションは１から
         verfier[model_hash][ver[model_hash]] = phash;
-        up_model.push(_model);
     }
     
     // モデルの検証　受け取ったハッシュ値と保存されてる最新のファームウェアのハッシュ値を、ハッシュ値で比較
@@ -262,8 +278,55 @@ contract Vender {
         return _states;
     }
     
-    // 最新のアップデート内容の取得(モデル名とバージョン名)
-    function getUpInfo() view public returns(string memory, uint256){
-        return (up_model[up_model.length - 1], getVer(up_model[up_model.length - 1]));
-    }
+    // Adminからモデルの配列を受け取り、それにあった状態を渡す
+    /*function checkStates(address _admin, bytes32[] memory _models, uint8[] memory _states) public returns(uint8[] memory){
+        Group gp = Group(_admin);
+        _states = getModelState(_models, _states);
+        gp.chengeState(_states, _models);
+    }*/
+    
 }
+
+contract Communicate is Group{
+    mapping(address=>mapping(address=>string[])) public strage;
+    
+    event SendData(address _from, address _to);
+    event StoreData(address _dataowner, address _from, string _data);
+    event GetData(address _sender, address _from, string _data);
+    
+    constructor(address _vender) Group(_vender) public{}
+    
+    function sendData(address _to,  string memory _data) public{
+        emit SendData(_to,msg.sender);
+        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0 && belongTo[msg.sender] == belongTo[_to]){
+            if(isSecureAdder(_to) == 1) revert("アクセス先が危険です");
+            strage[_to][msg.sender].push(_data);
+            emit StoreData(_to, msg.sender, _data);
+        }else{
+            revert("不正なアクセスです");
+        }
+    }
+    
+    function getData(address _from) view public returns(string memory){
+        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0 && belongTo[msg.sender] == belongTo[_from]){
+            if(isSecureAdder(_from) == 1) revert("アクセス先が危険です");
+            return strage[msg.sender][_from][strage[msg.sender][_from].length-1];
+        }else{
+            revert("不正なアクセスです");
+        }
+    }
+    
+    function access(address _to)view public returns(uint8){
+        if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0 && belongTo[msg.sender] == belongTo[_to]){
+//sender is safe/sender is belong to group / sender and receiver belong to the same group
+        if(isSecureAdder(_to) == 1) {
+            return 1; //access先は危険
+        }else{
+            return 0;//access先は安全 //同じグループ
+        }
+        
+    }
+    
+}
+}
+
