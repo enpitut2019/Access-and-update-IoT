@@ -829,7 +829,7 @@ const address2 = '0xcbcdec784fa28f88eb75f4d0b0885db8791051a4';
 				// venderのインスタンスを生成
 				const mycontract = web3.eth.contract(abi).at(address);
 				
-				var account, id, program, ver, content, title;
+				var account, id, program, ver, content, title, adders, titles;
 				// ハッシュ生成
 				const HASH_KEY = 'HASH_KEY';
 				function generateHash (text) {
@@ -845,25 +845,24 @@ const address2 = '0xcbcdec784fa28f88eb75f4d0b0885db8791051a4';
                 web3.eth.getAccounts((error, result) => {
 					account = result[0]
                     $('#accounts').text('Your accounts: '+account)
-                })
+				})
+				
                 mycontract.getUpInfo.call({from: account, gas:3000000},(error, result) =>{
 					console.log(result)
 					id = result[0];
 					ver = result[1];
 					$('#id').text("model: " + result[0] + " ver: " + result[1]);
 					commu.searchModel(result[0], {from: account, gas:3000000},(error2, result2) =>{
-								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
+								if(typeof result2[0] === 'undefined'){}
 								else{
 									var ghash, bhash
 									document.getElementById("address").innerHTML = "アドレス: " 
-									document.getElementById("address").innerHTML += result2
+									for(var i = 0; i < result2.length; i++){
+										document.getElementById("address").innerHTML += ("\n" + result2[i])
+									}
 								}
 							})
                 });
-                mystrage.getProgram.call('A',id-1,{from: account, gas:3000000},(error, result) =>{
-                    program = result;
-					$('#program').text(result)
-				});
 
 				function getVer(){
 					var input = Test_form.get_ver.value
@@ -894,11 +893,15 @@ const address2 = '0xcbcdec784fa28f88eb75f4d0b0885db8791051a4';
 							console.log("get")
 							$('#id').text("model: " + result[0] + " ver: " + result[1])
 							commu.searchModel(result[0], {from: account, gas:3000000},(error2, result2) =>{
-								if(result2[0] == 0x0000000000000000000000000000000000000000000000000000000000000000){}
+								if(typeof result2[0] === 'undefined'){consol.log("OK")}
 								else{
+									console.log("gg: "+ result2[0])
+									adders = result2; // ファイル書き込み用
 									var ghash, bhash
 									document.getElementById("address").innerHTML = "アドレス: " 
-									document.getElementById("address").innerHTML += result2
+									for(var i = 0; i < result2.length; i++){
+										document.getElementById("address").innerHTML += ("\n" + result2[i])
+									}
                             		mystrage.getProgram.call(result[0],result[1]-1,{from: account, gas:3000000},(error3, result3) =>{
                                 		program = result3;
 				    	        		$('#program').text(result3)
@@ -907,9 +910,9 @@ const address2 = '0xcbcdec784fa28f88eb75f4d0b0885db8791051a4';
 										mycontract.verify.call(ghash,result[0], {from: account, gas:3000000}, (error4, result4) => {
 											$('#eq').text(result4)
 										})
-										for(var i = 0; i < result2.length; i++){
-											WriteFile(result2[i], result3)
-										}
+										console.log(result2);
+										num = 0;
+										WriteFile(result2[0], result3)
                            			});
 								}
 							})
@@ -935,7 +938,14 @@ const address2 = '0xcbcdec784fa28f88eb75f4d0b0885db8791051a4';
         						var blob = new Blob([content], {type: "text/pain"});
         						fileWriter.write(blob);
         					} else {
-          						console.log('Write completed.' + title);
+								  console.log('Write completed.' + title);
+								  num+=1;
+								  if(num < adders.length){
+									  console.log("num:" + num)
+									  console.log("program:" + program )
+									  console.log("addd:" + adders[num])
+									  WriteFile(adders[num],program);
+								  }
         					}
       					};
       					fileWriter.truncate(0);
