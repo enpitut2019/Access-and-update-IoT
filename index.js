@@ -6,8 +6,9 @@ if (typeof web3 !== 'undefined') {
     $('#YoutAccount').text('Your Account is '+acc);
 })
 
-const group_contract = "0xedc7cda832a934664fc1489e813fa5bdf88f3f69"; 
-const communication_contract = "0x33419ec32136044283f759c585785ae584027bb4"; 
+
+const group_contract = "0x1c484187e8783e39fd17ebbb7c4d07d239a101d4"; 
+const communication_contract = "0x0dbd3828ad98292ec73dade197d0b9b776076cd0"; 
 //コントラクトを更新するたびに変更必要
   
 const communication_abi=[
@@ -440,7 +441,6 @@ const communication_abi=[
 ]
 
 
-
 //commu_cnt=web3.eth.contract(group_abi).at(group_contract)
 commu_cnt=web3.eth.contract(communication_abi).at(communication_contract)
 
@@ -459,6 +459,18 @@ function addMember(){
     mem=document.forms.id_form1.add.value;
     commu_cnt
     .addMember(mem,{
+        from: acc,
+        gas: 1000000,
+},(error,result)=>{
+})
+}
+
+function removeMember(){
+	console.log("uo")
+
+    memb=document.forms.delete.del.value;
+    commu_cnt
+    .removeMember(memb,{
         from: acc,
         gas: 1000000,
 },(error,result)=>{
@@ -485,6 +497,9 @@ function getAuthenticatedMembers(){
 		console.log("wawa")
 		for(a=0;a<res.length;a++){
 			models=res[a]
+			if(models=="0x0000000000000000000000000000000000000000"){
+				continue;
+			}
 			console.log("wawa")
 			document.getElementById("authenticated").innerHTML +="<br>"+ models;
 			}
@@ -524,6 +539,10 @@ function getModels(){
 		for(a=0;a<res.length;a++){
 		models=res[a]
 		console.log("wawa")
+		if(models=="0x0000000000000000000000000000000000000000000000000000000000000000"){
+			continue;
+		}
+	
 		document.getElementById("hashedmodels").innerHTML +="<br>"+ models;
 		}
     }
