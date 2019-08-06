@@ -46,12 +46,18 @@ contract Group{
     constructor(address _vender) public{
         ven = Vender(_vender);
     }
+    
+    event CreateGroup(address indexed from);
+    event AddMember(address indexed admin, address indexed follower);
+    event RequestJoin(address indexed from, address indexed follower, string indexed model);
+    event RemoveMember(address indexed adomin, address indexed follower);
 
     function createGroup() public onlyIndependent(){
         groupId++;
         admins.push(msg.sender);
         adminToGid[msg.sender] = groupId;
         isAdmin[msg.sender]=true;
+        emit CreateGroup(msg.sender);
     }
 
     function addMember(address follower) public onlyOwner() {
@@ -61,6 +67,7 @@ contract Group{
                      }
                  }
         allowedMembers[msg.sender].push(follower);
+        emit AddMember(msg.sender, follower);
     }
 
     function requestJoin(address admin,string memory ownmodel)public onlyIndependent(){
@@ -86,7 +93,7 @@ contract Group{
                 }else{
                     hasModels[admin].push(hashedModel);
                 }
-                
+                emit RequestJoin(msg.sender, admin, ownmodel);
            
                
                 //既に所有していたら追加しない操作も後で
@@ -123,9 +130,10 @@ contract Group{
                    hasModels[msg.sender][k]=bytes32(0x00);
                   }
               }
-             }
-              count=0;
-         }
+          }
+        count=0;
+        emit RemoveMember(msg.sender, follower);
+    }
         
     
     
@@ -229,20 +237,20 @@ contract Communicate is Group{
     function access(address _to)view public returns(uint8){
         if(isSecureAdder(msg.sender)==0 && belongTo[msg.sender] != 0  ){
 //sender is safe/sender is belong to group / sender and receiver belong to the same group
-        if(isSecureAdder(_to) == 1) {
-            return 1; //access先は危険
-        }else{
-            if(!(belongTo[msg.sender] == belongTo[_to])) {
-                return 2;//異なるグループ
+            if(isSecureAdder(_to) == 1) {
+                return 1; //access先は危険
             }else{
-            return 0;//access先は安全 //同じグループ
+                if(!(belongTo[msg.sender] == belongTo[_to])) {
+                    return 2;//異なるグループ
+                }else{
+                    return 0;//access先は安全 //同じグループ
+                }
+            }
+        }else if(isSecureAdder(msg.sender)==1){
+            return 1;//senderが危険
+        }else{
+            return 2; //グループに属してない
         }
     }
-}else if(isSecureAdder(msg.sender)==1){
-     return 1;//senderが危険
-}else{
-    return 2; //グループに属してない
-}
-}
 }
 
