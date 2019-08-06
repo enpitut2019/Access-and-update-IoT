@@ -437,28 +437,7 @@
 						$('#mstate').text(inputs + " " + result2);
 					});
 				}
-				// ページの更新
-				/*function reloadFunctions(){
-					// アカウント・お金の更新
-					web3.eth.getAccounts((error, result) => {
-						if (account != result[0]){
-							location.reload();
-						}
-						account = result[0]
-    	                $('#accounts').text('Your accounts: '+account)
-                	});
-                    mycontract.getVer.call({from: account, gas:3000000},(error, result) =>{
-                        if(id != result){
-                            id = result;
-                            $('#id').text(result)
-                            mycontract.getProgram.call({from: account, gas:3000000},(error2, result2) =>{
-                                program = result2;
-				            	$('#program').text(result2)
-                           });
-                        }
-                	});
-				}
-				setInterval('reloadFunctions()',100);*/
+				
             } else {
                 document.write('Install <a href="https://metamask.io">METAMASK</a>')
             }

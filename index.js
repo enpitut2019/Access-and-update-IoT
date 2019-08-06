@@ -759,8 +759,7 @@ function requestJoin(){
     .requestJoin(GID[0],GID[1],{
         from: acc,
         gas: 1000000,
-},(error,result)=>{
-})
+	},(error,result)=>{})
 }
 
 function getAuthenticatedMembers(){
@@ -860,36 +859,7 @@ function accessCamera(){
 	}
 })
 }
-// function getDangerDevices(){
-// 	var response=[]
-
-//     group_cnt
-//     .getDangerDevices.call(
-//     (error,res)=>{
-//     if(!error){
-// 		for(i=0;i<res.length;i++){
-// 			if(res[i]==0x0000000000000000000000000000000000000000000000000000000000000000){
-// 				console.log('wao')
-// 				continue;
-// 			}else{
-// 				console.log('uu')
-// 				response.push(res[i])
-// 			}
-// 		}
-// 		if(response.length<1){
-// 			$('#NoDanger').text("No Dangerous Device")
-// 		}else{
-// 		$('#DangerModels').text(response)
-// 		}
-//     }
-// 	}
-// 	)
-// }
-
 
 }else{
         document.write('Install <a href="https://metamask.io">METAMASK</a>')
 }
-
-    
-
