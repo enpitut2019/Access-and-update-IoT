@@ -3,15 +3,16 @@
     <head><meta http-equiv="content-type" charset="utf-8"></head>
     <body>
 		<form name="Test_form" action="test.html">
+				<pre style="font-size:x-large; color:#ff0000">ベンダー側のページです　ファームウェアファイルと脆弱性情報の公開ができます</pre>
         <div id="networkid"></div>
         <div id="accounts"></div>
         <div>
-            <input type="text" placeholder="string_model, string_file" name="up_input"> &nbsp;&nbsp;  <input type="button" value="アップロード" onclick="upContent()"><br>
+            <input type="text" placeholder="string_model, string_file" name="up_input" style="font-size: 100%;width: 200px"> &nbsp;&nbsp;  <input type="button" value="アップロード" onclick="upContent()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ファームウェアファイルのアップロード)<br>
             保存したファイル: &nbsp; <div id="file"></div>
             保存したハッシュ値: &nbsp; <div id="fhash"></div>
-            <input type="text" placeholder="string_model" name="up_bad"> &nbsp;&nbsp;  <input type="button" value="脆弱性あるモデルのアップ" onclick="upBad()"><br>
-			<input type="text" placeholder="string_model" name="up_good"> &nbsp;&nbsp;  <input type="button" value="脆弱性修正したモデルのアップ" onclick="upGood()"><br>
-			<input type="text" placeholder="string_model" name="check_model"> &nbsp;&nbsp;  <input type="button" value="モデルの安全性を表示" onclick="displayModel()"><br>
+            <input type="text" placeholder="string_model" name="up_bad" style="font-size: 100%"> &nbsp;&nbsp;  <input type="button" value="脆弱性あるモデルのアップ" onclick="upBad()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(脆弱なモデルを追加)<br>
+			<input type="text" placeholder="string_model" name="up_good" style="font-size: 100%"> &nbsp;&nbsp;  <input type="button" value="脆弱性修正したモデルのアップ" onclick="upGood()"><br>
+			<input type="text" placeholder="string_model" name="check_model" style="font-size: 100%"> &nbsp;&nbsp;  <input type="button" value="モデルの安全性を表示" onclick="displayModel()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(モデルが脆弱かどうか確認)<br>
 			<div id ="model">モデルの状態: &nbsp; <div id="mstate"></div></div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
