@@ -22,6 +22,7 @@ contract Vender {
         ver[model_hash]+=1; //　バーションは１から
         verfier[model_hash][ver[model_hash]] = phash;
         up_model.push(_model);
+        model_state[model_hash] = 0;
     }
     
     // モデルの検証　受け取ったハッシュ値と保存されてる最新のファームウェアのハッシュ値を、ハッシュ値で比較
