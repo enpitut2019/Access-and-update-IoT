@@ -6,7 +6,7 @@ if (typeof web3 !== 'undefined') {
     $('#YoutAccount').text('Your Account is '+acc);
 })
 
-const communication_contract = "0xc7315cbf4898f88b805ec0da107bd936bd3a4c53"; 
+const communication_contract = "0xfbc52dd032a02d7a8812c4cf427259a481509bdc"; 
 //コントラクトを更新するたびに変更必要
   
 const communication_abi=[
