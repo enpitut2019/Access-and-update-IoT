@@ -7,6 +7,10 @@ contract Vender {
     mapping(bytes32=>uint8) public model_state; // 0 safe, 1 脆弱性含む
     string[] public up_model; // 公開したアップデートファイルに対応したモデル名
     
+    event UpNewProgram(address indexed from, string indexed model, string phash, uint256 ver);
+    event BadModel(address indexed from, string indexed model);
+    event SafeModel(address indexed from, string indexed model);
+    
     constructor() public{}
     
     // ハッシュ関数(文字列 -> ハッシュ値)　文字列の比較に使用
@@ -22,6 +26,8 @@ contract Vender {
         ver[model_hash]+=1; //　バーションは１から
         verfier[model_hash][ver[model_hash]] = phash;
         up_model.push(_model);
+        model_state[model_hash] = 0;
+        emit UpNewProgram(msg.sender, _model, phash, ver[model_hash]);
     }
     
     // モデルの検証　受け取ったハッシュ値と保存されてる最新のファームウェアのハッシュ値を、ハッシュ値で比較
@@ -47,12 +53,14 @@ contract Vender {
     function badModel(string memory _model) public{
         bytes32 model_hash = getHash(_model);
         model_state[model_hash] = 1;
+        emit BadModel(msg.sender, _model);
     }
     
     // モデルの状態を安全へ変更
     function safeModel(string memory _model) public{
         bytes32 model_hash = getHash(_model);
         model_state[model_hash] = 0;
+        emit SafeModel(msg.sender, _model);
     }
     
     // モデルの状態を取得

@@ -3,15 +3,16 @@
     <head><meta http-equiv="content-type" charset="utf-8"></head>
     <body>
 		<form name="Test_form" action="test.html">
+				<pre style="font-size:x-large; color:#ff0000">ベンダー側のページです　ファームウェアファイルと脆弱性情報の公開ができます</pre>
         <div id="networkid"></div>
         <div id="accounts"></div>
         <div>
-            <input type="text" placeholder="string_model, string_file" name="up_input"> &nbsp;&nbsp;  <input type="button" value="アップロード" onclick="upContent()"><br>
+            <input type="text" placeholder="string_model, string_file" name="up_input" style="font-size: 100%;width: 200px"> &nbsp;&nbsp;  <input type="button" value="アップロード" onclick="upContent()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ファームウェアファイルのアップロード)<br>
             保存したファイル: &nbsp; <div id="file"></div>
             保存したハッシュ値: &nbsp; <div id="fhash"></div>
-            <input type="text" placeholder="string_model" name="up_bad"> &nbsp;&nbsp;  <input type="button" value="脆弱性あるモデルのアップ" onclick="upBad()"><br>
-			<input type="text" placeholder="string_model" name="up_good"> &nbsp;&nbsp;  <input type="button" value="脆弱性修正したモデルのアップ" onclick="upGood()"><br>
-			<input type="text" placeholder="string_model" name="check_model"> &nbsp;&nbsp;  <input type="button" value="モデルの安全性を表示" onclick="displayModel()"><br>
+            <input type="text" placeholder="string_model" name="up_bad" style="font-size: 100%"> &nbsp;&nbsp;  <input type="button" value="脆弱性あるモデルのアップ" onclick="upBad()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(脆弱なモデルを追加)<br>
+			<input type="text" placeholder="string_model" name="up_good" style="font-size: 100%"> &nbsp;&nbsp;  <input type="button" value="脆弱性修正したモデルのアップ" onclick="upGood()"><br>
+			<input type="text" placeholder="string_model" name="check_model" style="font-size: 100%"> &nbsp;&nbsp;  <input type="button" value="モデルの安全性を表示" onclick="displayModel()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(モデルが脆弱かどうか確認)<br>
 			<div id ="model">モデルの状態: &nbsp; <div id="mstate"></div></div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
@@ -22,7 +23,7 @@
                 ethereum.enable();
                 
 
-                const address = '0x65e6dfb6ef495839ee06342d2c7a2d8a990ee729';
+                const address = '0x9ceee39ba5759c3c3bee823f22c1eb8f6bc5c57a';
                 const abi =[
 	{
 		"constant": true,
@@ -276,10 +277,70 @@
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "phash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ver",
+				"type": "uint256"
+			}
+		],
+		"name": "UpNewProgram",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			}
+		],
+		"name": "BadModel",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			}
+		],
+		"name": "SafeModel",
+		"type": "event"
 	}
 ]
-
-            const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
+            const address2 = '0x60a65327440974bbec81b051e2c194810dd2cb8c';
 			const abi2 = [
 	{
 		"constant": false,
@@ -413,9 +474,6 @@
 				        $('#file').text(inputs[1])
 						mycontract.upNewProgram.sendTransaction(ihash, inputs[0],{from: account, gas:3000000},(error2, result2) =>{
 							$('#fhash').text(ihash + " " + inputs[0])
-							mycontract.safeModel.sendTransaction(inputs[0],{from: account, gas:3000000},(error2, result2) =>{
-								console.log(inputs[0] + ": 0へ")
-							});
                 		});
                 	});
                 }

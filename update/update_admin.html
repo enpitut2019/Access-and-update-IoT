@@ -4,7 +4,8 @@
     <head><meta http-equiv="content-type" charset="utf-8"></head>
     <body>
 		<form name="Test_form" action="test.html">
-        <div id="networkid"></div>
+				<pre style="font-size:large; color:#ff0000">Adminのページです　ファームウェアの更新情報を取得しています</pre>
+		<div id="networkid"></div>
         <div id="accounts"></div>
 		<div>最新のアップデート情報:&nbsp;<div id="id"></div> 
 		<div id="address">アドレス: </div><br>
@@ -27,7 +28,7 @@
                 web3 = new Web3(web3.currentProvider);
                 ethereum.enable();
 
-                const address = '0x65e6dfb6ef495839ee06342d2c7a2d8a990ee729';
+                const address = '0x9ceee39ba5759c3c3bee823f22c1eb8f6bc5c57a';
                 const abi =[
 	{
 		"constant": true,
@@ -281,10 +282,71 @@
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "phash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ver",
+				"type": "uint256"
+			}
+		],
+		"name": "UpNewProgram",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			}
+		],
+		"name": "BadModel",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			}
+		],
+		"name": "SafeModel",
+		"type": "event"
 	}
 ]
 
-const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
+const address2 = '0x60a65327440974bbec81b051e2c194810dd2cb8c';
 			const abi2 = [
 	{
 		"constant": false,
@@ -391,41 +453,8 @@ const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
 	}
 ]
 
-				const address_commu = "0xe94dc54dccb9985025640186e719f205fe9fb2d3";
+				const address_commu = "0xc7315cbf4898f88b805ec0da107bd936bd3a4c53";
 				const abi_commu = [
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_adder",
-				"type": "address"
-			}
-		],
-		"name": "isSecureAdder",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getModels",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
 	{
 		"constant": false,
 		"inputs": [
@@ -434,43 +463,19 @@ const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
 				"type": "address"
 			}
 		],
-		"name": "removeMember",
+		"name": "addMember",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [],
-		"name": "getGid",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"name": "createGroup",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_from",
-				"type": "address"
-			}
-		],
-		"name": "getData",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -493,151 +498,6 @@ const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAllowedMembers",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "createGroup",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_var",
-				"type": "string"
-			}
-		],
-		"name": "getHash",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"payable": false,
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_to",
-				"type": "address"
-			}
-		],
-		"name": "access",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "hashed",
-				"type": "bytes32[]"
-			},
-			{
-				"name": "goodbad",
-				"type": "uint8[]"
-			}
-		],
-		"name": "updateinfo",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getDangerDevices",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "addrTomodel",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "ven",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "getIsSecure",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -645,7 +505,7 @@ const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
 				"type": "address"
 			}
 		],
-		"name": "addMember",
+		"name": "removeMember",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -670,39 +530,6 @@ const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "searchModel",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getAuthenticatedMembers",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
@@ -721,30 +548,21 @@ const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
-				"name": "",
-				"type": "address"
+				"name": "hashed",
+				"type": "bytes32[]"
 			},
 			{
-				"name": "",
-				"type": "address"
-			},
-			{
-				"name": "",
-				"type": "uint256"
+				"name": "goodbad",
+				"type": "uint8[]"
 			}
 		],
-		"name": "strage",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			}
-		],
+		"name": "updateinfo",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -818,6 +636,318 @@ const address2 = '0xa2bab11f93a35f6f9fd52f2022f2fd6db11ab4a2';
 		],
 		"name": "GetData",
 		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			}
+		],
+		"name": "CreateGroup",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "admin",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "follower",
+				"type": "address"
+			}
+		],
+		"name": "AddMember",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "follower",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "model",
+				"type": "string"
+			}
+		],
+		"name": "RequestJoin",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "adomin",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "follower",
+				"type": "address"
+			}
+		],
+		"name": "RemoveMember",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			}
+		],
+		"name": "access",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "addrTomodel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllowedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAuthenticatedMembers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getDangerDevices",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			}
+		],
+		"name": "getData",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getGid",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_var",
+				"type": "string"
+			}
+		],
+		"name": "getHash",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "getIsSecure",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getModels",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_adder",
+				"type": "address"
+			}
+		],
+		"name": "isSecureAdder",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_model",
+				"type": "string"
+			}
+		],
+		"name": "searchModel",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "strage",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "ven",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
 				// Storeのインスタンス
